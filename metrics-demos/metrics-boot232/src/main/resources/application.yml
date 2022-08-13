@@ -1,0 +1,40 @@
+#spring:
+
+
+server:
+  port: 9998
+  #暴露端口9999（此端口需不同于rest端口），如端口冲突可更换其他端口
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+      base-path: /
+      path-mapping:
+        prometheus: metrics
+ # http://127.0.0.1:9998/metrics
+
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+
+spring:
+  application:
+    name: metric-232
+  profiles:
+    active: dev
+logging:
+  level:
+    #root: DEBUG
+    com.alibaba.nacos.client.config.impl: WARN
+
+apollo:
+  bootstrap:
+    enabled: true
+    namespaces: dynamic-tp-apollo-demo-dtp.yml
+  meta: http://localhost:8080
+  config-service: http://localhost:8080
+app:
+  id: dynamic-tp-apollo-demo
+
