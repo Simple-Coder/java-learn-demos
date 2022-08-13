@@ -17,7 +17,7 @@
         <lombok.version>1.18.12</lombok.version>
     </properties>
     <dependencies>
-        <!-- lombok插件 -->
+        <!-- lombok插件 ..-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
