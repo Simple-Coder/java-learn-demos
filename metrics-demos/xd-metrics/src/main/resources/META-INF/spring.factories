@@ -1,0 +1,9 @@
+#????
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  org.example.metrics.xd.configuration.MicrometerConfiguration,\
+  org.example.metrics.xd.exceptions.ExceptionMetricsAutoConfiguration
+
+
+
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  org.example.metrics.xd.configuration.PropertyPostProcessor
