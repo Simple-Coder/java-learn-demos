@@ -1,0 +1,42 @@
+##暴露端口9999（此端口需不同于rest端口），如端口冲突可更换,也可以不单独配置端口，那么访问的和rest访问同一个端口
+management:
+  security:
+    enabled: false
+#  port: 9999
+#
+##所有端点关闭，只开放prometheus端点
+#endpoints:
+#  enabled: true
+#  prometheus:
+#    enabled: true
+server:
+  port: 9999
+spring:
+  application:
+    name: metrics-boot158
+eureka:
+  client:
+    # false表示不向注册中心注册自己
+    register-with-eureka: true
+    # false表示自己端就是注册中心,我的职责就是维护服务实例,并不需要检索服务
+    fetch-registry: true
+    service-url:
+      # 设置与Eureka Server交互的地址查询服务和注册服务都需要依赖这个地址
+      # 单机
+      defaultZone: http://eureka7001.com:7001/eureka/
+#  instance:
+#    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+#    prefer-ip-address: true
+  #      "prometheus.scrape": "true"
+#      "prometheus.path": "/prometheus"
+#      "prometheus.port": "9999"
+  # 相互注册
+#      defaultZone: http://eureka7002.com:7002/eureka/
+# http://127.0.0.1:9999/prometheus
+#endpoints:
+#  prometheus:
+#    id: metrics
+#  metrics:
+#    id: springmetrics
+#    sensitive: false
+#    enabled: true
