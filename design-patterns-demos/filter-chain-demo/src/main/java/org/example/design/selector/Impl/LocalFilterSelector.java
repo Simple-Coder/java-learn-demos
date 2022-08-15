@@ -1,6 +1,7 @@
-package org.example.design.filters;
+package org.example.design.selector.Impl;
 
 import org.assertj.core.util.Lists;
+import org.example.design.selector.FilterSelector;
 
 import java.util.List;
 import java.util.Objects;
@@ -9,10 +10,10 @@ import java.util.Objects;
  * Created by xiedong
  * Date: 2022/8/14 19:20
  */
-public class LocalFilterSelector implements FilterSelector{
+public class LocalFilterSelector extends AbstractSelector {
     private List<String> filterNames = Lists.newArrayList();
     @Override
-    public boolean matchFilter(String clz) {
+    public boolean match(String clz) {
 
         return this.filterNames.stream().anyMatch((s)->{
             return Objects.equals(s,clz);
@@ -20,7 +21,7 @@ public class LocalFilterSelector implements FilterSelector{
     }
 
     @Override
-    public List<String> getFilterNames() {
+    public List<String> getNames() {
         return this.filterNames;
     }
 

@@ -1,8 +1,9 @@
 package org.example.design.config;
 
-import org.example.design.filters.FilterChainPipeline;
-import org.example.design.filters.subscribe.ForwardFeedFilter;
-import org.example.design.filters.subscribe.LiveFeedFilter;
+import org.example.design.filters.FeedChainPipeline;
+import org.example.design.filters.subscribe.ForwardFeedHandler;
+import org.example.design.filters.subscribe.LiveFeedHandler;
+import org.example.design.filters.subscribe.VideoFeedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,15 +15,18 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class PipelineConfig {
     @Autowired
-    private LiveFeedFilter liveFeedFilter;
+    private LiveFeedHandler liveFeedFilter;
     @Autowired
-    private ForwardFeedFilter forwardFeedFilter;
+    private ForwardFeedHandler forwardFeedFilter;
+    @Autowired
+    private VideoFeedHandler videoFeedHandler;
 
     @Bean("subscribeFilterChainPipeline")
-    public FilterChainPipeline subscribePipeline() {
-        FilterChainPipeline filterChainPipeline = new FilterChainPipeline();
+    public FeedChainPipeline subscribePipeline() {
+        FeedChainPipeline filterChainPipeline = new FeedChainPipeline();
         filterChainPipeline.addFilter("直播类型", liveFeedFilter);
         filterChainPipeline.addFilter("转发类型", forwardFeedFilter);
+        filterChainPipeline.addFilter("视频类型", videoFeedHandler);
         return filterChainPipeline;
     }
 

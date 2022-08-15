@@ -2,14 +2,16 @@ package org.example.design.service.Impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.design.enums.BizEnum;
-import org.example.design.filters.FilterChainPipeline;
-import org.example.design.filters.FilterSelector;
-import org.example.design.filters.LocalFilterSelector;
+import org.example.design.filters.FeedChainPipeline;
+import org.example.design.selector.FilterSelector;
+import org.example.design.selector.Impl.LocalFeedSelector;
+import org.example.design.selector.Impl.LocalFilterSelector;
 import org.example.design.filters.context.SubscribeContext;
-import org.example.design.filters.subscribe.ForwardFeedFilter;
-import org.example.design.filters.subscribe.LiveFeedFilter;
+import org.example.design.filters.subscribe.ForwardFeedHandler;
+import org.example.design.filters.subscribe.LiveFeedHandler;
+import org.example.design.filters.subscribe.VideoFeedHandler;
+import org.example.design.selector.Selector;
 import org.example.design.service.SubscribeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,13 +25,13 @@ import javax.annotation.Resource;
 public class SubscribeServiceImpl implements SubscribeService {
 
     @Resource
-    private FilterChainPipeline subscribeFilterChainPipeline;
+    private FeedChainPipeline subscribeFilterChainPipeline;
 
 
     @Override
     public Object getSubscribeList(Object req) {
         //1.获取selector
-        FilterSelector selector = this.getFilterSelector();
+        Selector selector = this.getFilterSelector();
         //2.构建上下文
         SubscribeContext subscribeContext = new SubscribeContext(BizEnum.BIZ_XXX, selector);
         //3.请求模型设置到上下文
@@ -40,10 +42,11 @@ public class SubscribeServiceImpl implements SubscribeService {
         return subscribeContext.getRsp();
     }
 
-    private FilterSelector getFilterSelector() {
-        LocalFilterSelector localFilterSelector = new LocalFilterSelector();
-        localFilterSelector.addFilter(LiveFeedFilter.class.getSimpleName());
-        localFilterSelector.addFilter(ForwardFeedFilter.class.getSimpleName());
-        return localFilterSelector;
+    private Selector getFilterSelector() {
+        LocalFeedSelector localFeedSelector = new LocalFeedSelector();
+        localFeedSelector.addFeedHandler(LiveFeedHandler.class.getSimpleName());
+        localFeedSelector.addFeedHandler(ForwardFeedHandler.class.getSimpleName());
+        localFeedSelector.addFeedHandler(VideoFeedHandler.class.getSimpleName());
+        return localFeedSelector;
     }
 }

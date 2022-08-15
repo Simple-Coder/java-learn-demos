@@ -1,11 +1,10 @@
 package org.example.design.filters.abs;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.example.design.common.BizAware;
 import org.example.design.common.FeedContext;
 import org.example.design.enums.BizEnum;
-import org.example.design.filters.FilterSelector;
+import org.example.design.selector.FilterSelector;
+import org.example.design.selector.Selector;
 
 /**
  * Created by xiedong
@@ -13,21 +12,21 @@ import org.example.design.filters.FilterSelector;
  */
 public abstract class AbstractFeedContext implements FeedContext {
     private BizEnum bizEnum;
-    private FilterSelector filterSelector;
+    private Selector selector;
 
-    public AbstractFeedContext(FilterSelector filterSelector, BizEnum bizEnum) {
-        this.filterSelector = filterSelector;
+    public AbstractFeedContext(Selector selector, BizEnum bizEnum) {
+        this.selector = selector;
         this.bizEnum = bizEnum;
     }
 
     @Override
-    public BizAware getBizCode() {
-        return null;
+    public BizEnum getBizCode() {
+        return this.bizEnum;
     }
 
     @Override
-    public FilterSelector getFilterSelector() {
-        return this.filterSelector;
+    public Selector getSelector() {
+        return this.selector;
     }
 
     @Override

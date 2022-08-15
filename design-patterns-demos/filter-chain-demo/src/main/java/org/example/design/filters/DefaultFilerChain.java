@@ -8,11 +8,11 @@ import java.util.Objects;
  * Created by xiedong
  * Date: 2022/8/14 19:09
  */
-public class DefaultFilerChain<T extends FeedContext> implements FeedFilerChain<T> {
+public class DefaultFilerChain<T extends FeedContext> implements FeedHandlerChain<T> {
     private DefaultFilerChain<T> next;
-    private FeedFilter<T> filter;
+    private FeedHandler<T> filter;
 
-    public DefaultFilerChain(DefaultFilerChain<T> next, FeedFilter<T> filter) {
+    public DefaultFilerChain(DefaultFilerChain<T> next, FeedHandler<T> filter) {
         this.next = next;
         this.filter = filter;
     }
@@ -23,8 +23,8 @@ public class DefaultFilerChain<T extends FeedContext> implements FeedFilerChain<
     }
 
     @Override
-    public void postHandler(T ctx) {
-        FeedFilerChain nextChain = this.next;
+    public void next(T ctx) {
+        FeedHandlerChain nextChain = this.next;
         if (Objects.nonNull(nextChain)) {
             nextChain.handle(ctx);
         }

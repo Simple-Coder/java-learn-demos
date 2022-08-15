@@ -3,8 +3,9 @@ package org.example.design.filters.context;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.design.enums.BizEnum;
-import org.example.design.filters.FilterSelector;
+import org.example.design.selector.FilterSelector;
 import org.example.design.filters.abs.AbstractFeedContext;
+import org.example.design.selector.Selector;
 
 /**
  * Created by xiedong
@@ -22,7 +23,7 @@ public class SubscribeContext extends AbstractFeedContext {
     @Setter
     private Object rsp;
 
-    public SubscribeContext(BizEnum bizEnum, FilterSelector filterSelector){
+    public SubscribeContext(BizEnum bizEnum, Selector filterSelector){
         super(filterSelector, bizEnum);
     }
 

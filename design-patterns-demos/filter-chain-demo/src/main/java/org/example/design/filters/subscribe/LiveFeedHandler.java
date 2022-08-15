@@ -1,13 +1,16 @@
 package org.example.design.filters.subscribe;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.example.design.filters.context.SubscribeContext;
 import org.example.design.service.IFacedeService;
 import org.example.design.filters.abs.AbstractFeedContext;
-import org.example.design.filters.abs.AbstractFeedFilter;
+import org.example.design.filters.abs.AbstractFeedHandler;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 /**
  * Created by xiedong
@@ -15,12 +18,18 @@ import javax.annotation.Resource;
  */
 @Service
 @Slf4j
-public class LiveFeedFilter extends AbstractFeedFilter<AbstractFeedContext> {
+public class LiveFeedHandler extends AbstractFeedHandler<SubscribeContext> {
     @Resource
     private IFacedeService facedeService;
 
     @Override
-    protected void handle(AbstractFeedContext ctx) {
+    protected void handle(SubscribeContext ctx) {
         log.info("LiveFeedFilter execute:{},current ctx is :{}", this.getClass().getSimpleName(), JSONUtil.toJsonStr(ctx));
+        log.info("直播处理了...");
+        if(StrUtil.isBlank(Objects.toString(ctx.getRsp()))){
+            ctx.setRsp("直播处理");
+        }else {
+            ctx.setRsp(Objects.toString(ctx.getRsp()).concat("->直播处理Ok"));
+        }
     }
 }
