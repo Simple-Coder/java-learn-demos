@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>filter-chain-demo</module>
+        <module>template-method-demo</module>
     </modules>
 
     <properties>

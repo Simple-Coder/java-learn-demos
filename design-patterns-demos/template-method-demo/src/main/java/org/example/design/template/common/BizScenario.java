@@ -1,0 +1,90 @@
+package org.example.design.template.common;
+
+/**
+ * Created by xiedong
+ * Date: 2022/8/21 16:00
+ * BizScenario（业务场景）= bizId + useCase + scenario, which can uniquely identify a user scenario.
+ */
+public class BizScenario {
+    public final static String DEFAULT_BIZ_ID = "#defaultBizId#";
+    public final static String DEFAULT_USE_CASE = "#defaultUseCase#";
+    public final static String DEFAULT_SCENARIO = "#defaultScenario#";
+    private final static String DOT_SEPARATOR = ".";
+
+    public static final String SUBSCRIBE_BIZ_ID="subscribe";
+    public static final String HOME_BIZ_ID="home";
+    public static final String OPUS_BIZ_ID="opus";
+
+
+    public static final String HANDLE_CASE="handler";
+    public static final String FILTER_CASE="filter";
+
+
+
+    public static final String FEED_TYPE_BROACASTLIST="broadcastlist";
+    public static final String FEED_TYPE_COURSEPREVIEW="coursepreview";
+    public static final String FEED_TYPE_FORWARD="forward";
+    public static final String FEED_TYPE_LIVECOURSE="livecourse";
+    public static final String FEED_TYPE_LIVE="live";
+    public static final String FEED_TYPE_LIVEPREVIEW="livepreview";
+    public static final String FEED_TYPE_POSTCARD="postcard";
+    public static final String FEED_TYPE_VIDEO="video";
+
+
+
+
+
+
+    /**
+     * bizId is used to identify a business, such as "tmall", it's nullable if there is only one biz
+     */
+    private String bizId = DEFAULT_BIZ_ID;
+
+    /**
+     * useCase is used to identify a use case, such as "placeOrder", can not be null
+     */
+    private String useCase = DEFAULT_USE_CASE;
+
+    /**
+     * scenario is used to identify a use case, such as "88vip","normal", can not be null
+     */
+    private String scenario = DEFAULT_SCENARIO;
+
+    /**
+     * For above case, the BizScenario will be "tmall.placeOrder.88vip",
+     * with this code, we can provide extension processing other than "tmall.placeOrder.normal" scenario.
+     *
+     * @return
+     */
+    public String getUniqueIdentity(){
+        return bizId + DOT_SEPARATOR + useCase + DOT_SEPARATOR + scenario;
+    }
+
+    public static BizScenario valueOf(String bizId, String useCase, String scenario){
+        BizScenario bizScenario = new BizScenario();
+        bizScenario.bizId = bizId;
+        bizScenario.useCase = useCase;
+        bizScenario.scenario = scenario;
+        return bizScenario;
+    }
+
+    public static BizScenario valueOf(String bizId, String useCase){
+        return BizScenario.valueOf(bizId, useCase, DEFAULT_SCENARIO);
+    }
+
+    public static BizScenario valueOf(String bizId){
+        return BizScenario.valueOf(bizId, DEFAULT_USE_CASE, DEFAULT_SCENARIO);
+    }
+
+    public static BizScenario newDefault(){
+        return BizScenario.valueOf(DEFAULT_BIZ_ID, DEFAULT_USE_CASE, DEFAULT_SCENARIO);
+    }
+
+    public String getIdentityWithDefaultScenario(){
+        return bizId + DOT_SEPARATOR + useCase + DOT_SEPARATOR + DEFAULT_SCENARIO;
+    }
+
+    public String getIdentityWithDefaultUseCase(){
+        return bizId + DOT_SEPARATOR + DEFAULT_USE_CASE + DOT_SEPARATOR + DEFAULT_SCENARIO;
+    }
+}
