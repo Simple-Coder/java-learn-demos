@@ -1,7 +1,9 @@
 package com.learn.boot.filter;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -13,7 +15,8 @@ import java.io.IOException;
  */
 @Slf4j
 @WebFilter(filterName = "urlFiler", urlPatterns = "/**")
-@Order(-1)
+@Order(1)
+@Component
 public class UrlFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -25,9 +28,9 @@ public class UrlFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 //        HttpServletResponseWrapper httpResponse = new HttpServletResponseWrapper((HttpServletResponse) response);
         String path = httpRequest.getRequestURI();
-        if (path.indexOf("/api/") < 0) {
-            path = "/api" + path;
-            httpRequest.getRequestDispatcher(path).forward(request, response);
+        if (StrUtil.contains(path,"v2")) {
+            String newPath = StrUtil.replace(path, "v2", "v1");
+            httpRequest.getRequestDispatcher(newPath).forward(request, response);
         } else {
             chain.doFilter(request, response);
         }
