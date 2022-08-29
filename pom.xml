@@ -12,6 +12,7 @@
         <module>metrics-demos</module>
         <module>starter-demos</module>
         <module>design-patterns-demos</module>
+        <module>boot-demos</module>
     </modules>
 
     <properties>

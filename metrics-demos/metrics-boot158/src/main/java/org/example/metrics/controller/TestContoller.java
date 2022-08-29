@@ -3,6 +3,7 @@ package org.example.metrics.controller;
 //import io.prometheus.client.spring.web.PrometheusTimeMethod;
 import cn.hutool.core.util.RandomUtil;
 import com.netflix.discovery.DiscoveryClient;
+import com.sohu.hd.metrics.custom.annotation.ControllerCost;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Metrics;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
@@ -29,20 +30,28 @@ public class TestContoller {
     @Autowired
     private PrometheusMeterRegistry meterRegistry;
 
-    @Autowired(required = false)
-    private DiscoveryClient discoveryClient;
+
+
+//    @Autowired(required = false)
+//    private DiscoveryClient discoveryClient;
     //
     @PostConstruct
     public void init(){
         CollectorRegistry prometheusRegistry = meterRegistry.getPrometheusRegistry();
         prometheusRegistry.register(user_hist_help);
+
+
+        Histogram register = Histogram.build().buckets(.005, .01, .025, .05, .1, .25, .5, 1, 2.5, 5, 10).
+                name("uri_histogram.test-test")
+                .labelNames("application", "feed_service.test-test")  //aplication用于区分不同环境
+                .help("uri_histogram.test-test") //help不可少
+                .register(meterRegistry.getPrometheusRegistry());
     }
 
     //  http:localhost:8989/metric1/a
     @GetMapping("/a")
-//    @PrometheusTimeMethod(name = "metric1_a", help = "metric1_a_help")
+    @ControllerCost()
     public String a() {
-//        Metrics.gauge()
         userCounter.increment();
         Double gauge = Metrics.gauge("user.gauge.test", RandomUtil.randomDouble(10,10000));
         user_hist_help.observe(RandomUtil.randomDouble(100,300));
@@ -59,4 +68,6 @@ public class TestContoller {
 //        }).start();
         return Thread.currentThread().getName()+gauge;
     }
+
+
 }
