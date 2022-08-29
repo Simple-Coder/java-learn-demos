@@ -51,4 +51,10 @@ public class handleValidatedException {
 
         return new ResponseEntity<>(resp,HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = {Exception.class})
+    public ResponseEntity globalException(Exception e) {
+        Response<Object> globalException = Response.failed(500, "服务器出小差了！");
+        return new ResponseEntity<>(globalException, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

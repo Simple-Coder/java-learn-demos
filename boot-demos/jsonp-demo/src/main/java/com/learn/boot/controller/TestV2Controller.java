@@ -21,6 +21,7 @@ public class TestV2Controller {
 
     @GetMapping("test")
     public Response<RspInfo> testV2(ReqInfo reqInfo) {
+        int a = 1/0;
         log.info("v2 accept :{}", JSONUtil.toJsonStr(reqInfo));
         RspInfo rspInfo = new RspInfo();
         rspInfo.setData("ok v2 data");
