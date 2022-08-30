@@ -1,12 +1,10 @@
 package org.example.design.template;
 
-import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.*;
@@ -20,11 +18,11 @@ public class ForkjoinPool {
     @SneakyThrows
     public static void main(String[] args) {
         ForkJoinPool pool = new ForkJoinPool();
-        List<MyTask> tasks = new ArrayList<>();
-        tasks.add(new MyTask("1", 500));
-        tasks.add(new MyTask("2", 1000));
-        tasks.add(new MyTask("3", 2000));
-        tasks.add(new MyTask("4", 5000));
+        List<MyTaskA> tasks = new ArrayList<>();
+        tasks.add(new MyTaskA("1", 500));
+        tasks.add(new MyTaskA("2", 1000));
+        tasks.add(new MyTaskA("3", 2000));
+        tasks.add(new MyTaskA("4", 5000));
 
         List<Object> collect = pool.invokeAll(tasks, 1, TimeUnit.SECONDS).stream().map(f -> {
             try {
@@ -42,7 +40,7 @@ public class ForkjoinPool {
 
 @Data
 @AllArgsConstructor
-class MyTask implements Callable<Object> {
+class MyTaskA implements Callable<Object> {
     private String id;
     private long mis;
 

@@ -1,9 +1,7 @@
 package org.example.design.template;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
-import cn.hutool.core.util.RandomUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.SneakyThrows;
@@ -58,11 +56,11 @@ public class TestB {
 
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         Collection<Callable<Object>> runnables = new ArrayList<>();
-        runnables.add(new MyTask("1", 500));
-        runnables.add(new MyTask("2", 1000));
-        runnables.add(new MyTask("3", 1000));
-        runnables.add(new MyTask("4", 2000));
-        runnables.add(new MyTask("5", 5000));
+        runnables.add(new MyTaskA("1", 500));
+        runnables.add(new MyTaskA("2", 1000));
+        runnables.add(new MyTaskA("3", 1000));
+        runnables.add(new MyTaskA("4", 2000));
+        runnables.add(new MyTaskA("5", 5000));
         TimeInterval timer = DateUtil.timer();
         List<Future<Object>> futures = forkJoinPool.invokeAll(runnables, 1, TimeUnit.SECONDS);
         List<Object> collect1 = futures.stream().map(f -> {
