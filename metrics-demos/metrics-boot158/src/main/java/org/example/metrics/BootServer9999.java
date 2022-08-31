@@ -1,9 +1,8 @@
 package org.example.metrics;
 
-import com.sohu.hd.metrics.custom.annotation.EnableControllerCost;
+//import com.sohu.hd.metrics.custom.annotation.EnableControllerCost;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
 /**
@@ -13,7 +12,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 @SpringBootApplication
 @EnableHystrix
 //@EnableDiscoveryClient
-@EnableControllerCost
+//@EnableControllerCost
 public class BootServer9999 {
     public static void main(String[] args) {
         SpringApplication.run(BootServer9999.class, args);
