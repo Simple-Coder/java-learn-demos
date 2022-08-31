@@ -14,6 +14,7 @@
     <properties>
         <spring-boot.version>1.5.8.RELEASE</spring-boot.version>
         <hutool-all.version>5.7.21</hutool-all.version>
+        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -27,6 +28,18 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+
+        <!--map struct-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
