@@ -11,13 +11,12 @@ import java.util.concurrent.*;
  * Created by xiedong
  * Date: 2022/9/1 22:29
  * 批量任务的限时 invokeAll(tasks) 批量提交不限时任务
-
-  invokeAll(tasks, timeout, unit) 批量提交限时任务
-
-  InvokeAll方法处理一个任务的容器（collection），并返回一个Future的容器。两个容器具有相同的结构：
-  invokeAll将Future添加到返回的容器中，这样可以使用任务容器的迭代器，从而调用者可以将它表现的Callable与Future 关联起来。
-  当所有任务都完成时、调用线程被中断时或者超过时限时，限时版本的invokeAll都会返回结果。 超过时限后，任务尚未完成的任务都会被取消。
- *
+ * <p>
+ * invokeAll(tasks, timeout, unit) 批量提交限时任务
+ * <p>
+ * InvokeAll方法处理一个任务的容器（collection），并返回一个Future的容器。两个容器具有相同的结构：
+ * invokeAll将Future添加到返回的容器中，这样可以使用任务容器的迭代器，从而调用者可以将它表现的Callable与Future 关联起来。
+ * 当所有任务都完成时、调用线程被中断时或者超过时限时，限时版本的invokeAll都会返回结果。 超过时限后，任务尚未完成的任务都会被取消。
  */
 public class ForkJoinTest1 {
     // 固定大小的线程池，同时只能接受5个任务
@@ -25,8 +24,8 @@ public class ForkJoinTest1 {
 
     /**
      * 计算价格的任务
-     * @author hadoop
      *
+     * @author hadoop
      */
     private class QuoteTask implements Callable<BigDecimal> {
         public final double price;
@@ -55,11 +54,11 @@ public class ForkJoinTest1 {
      *
      * @return
      */
-    public   void getRankedTravelQuotes() throws InterruptedException {
+    public void getRankedTravelQuotes() throws InterruptedException {
         List<QuoteTask> tasks = new ArrayList<QuoteTask>();
         // 模拟10个计算旅游报价的任务
         for (int i = 1; i <= 20; i++) {
-            tasks.add(new QuoteTask(200, i) );
+            tasks.add(new QuoteTask(200, i));
         }
 
         /**
@@ -80,11 +79,11 @@ public class ForkJoinTest1 {
                 // 返回计算失败的原因
                 // totalPriceList.add(task.getFailureQuote(e.getCause()));
                 totalPriceList.add(BigDecimal.valueOf(-1));
-                System.out.println("任务执行异常,单价是"+task.price+"，人数是："+task.num);
+                System.out.println("任务执行异常,单价是" + task.price + "，人数是：" + task.num);
             } catch (CancellationException e) {
                 // totalPriceList.add(task.getTimeoutQuote(e));
                 totalPriceList.add(BigDecimal.ZERO);
-                System.out.println("任务超时，取消计算,单价是"+task.price+"，人数是："+task.num);
+                System.out.println("任务超时，取消计算,单价是" + task.price + "，人数是：" + task.num);
             }
         }
         for (BigDecimal bigDecimal : totalPriceList) {
@@ -93,11 +92,53 @@ public class ForkJoinTest1 {
         mExecutor.shutdown();
     }
 
+    public static void testInvokeAllThread() throws InterruptedException {
+        ExecutorService exec = Executors.newFixedThreadPool(10);
+
+        List<Callable<Integer>> tasks = new ArrayList<Callable<Integer>>();
+        Callable<Integer> task = null;
+        for (int i = 0; i < 20; i++) {
+            task = new Callable<Integer>() {
+                @Override
+                public Integer call() throws Exception {
+                    int ran = new Random().nextInt(1000);
+                    Thread.sleep(ran);
+                    System.out.println(Thread.currentThread().getName()
+                            + " 休息了 " + ran);
+                    return ran;
+                }
+            };
+
+            tasks.add(task);
+        }
+
+        long s = System.currentTimeMillis();
+
+        List<Future<Integer>> results = exec.invokeAll(tasks);
+
+        System.out.println("执行任务消耗了 ：" + (System.currentTimeMillis() - s)
+                + "毫秒");
+
+        for (int i = 0; i < results.size(); i++) {
+            try {
+                System.out.println(results.get(i).get());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        exec.shutdown();
+    }
 
     public static void main(String[] args) {
         try {
             ForkJoinTest1 it = new ForkJoinTest1();
             it.getRankedTravelQuotes();
+
+
+            //
+            System.out.println("--------new");
+            testInvokeAllThread();
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
