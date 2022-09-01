@@ -1,7 +1,9 @@
 package org.example.design.template;
 
+import cn.hutool.core.thread.ThreadUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.util.ArrayList;
@@ -25,16 +27,20 @@ public class ForkjoinPool {
         tasks.add(new MyTaskA("4", 5000));
 
         List<Object> collect = pool.invokeAll(tasks, 1, TimeUnit.SECONDS).stream().map(f -> {
+            CommonResult<Object> commonResult = new CommonResult<>();
             try {
-                return f.get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.println(f.toString());
+                Object o = f.get();
+                commonResult.setData(o);
+                commonResult.setOk(true);
             } catch (Exception e) {
                 e.printStackTrace();
+                commonResult.setOk(false);
             }
-            return null;
+            return commonResult;
         }).filter(Objects::nonNull).collect(Collectors.toList());
         System.out.println(collect);
+        System.out.println("--------task -----");
     }
 }
 
@@ -50,4 +56,12 @@ class MyTaskA implements Callable<Object> {
         Thread.sleep(mis);
         return id;
     }
+}
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+class CommonResult<T> {
+    private boolean ok;
+    private T data;
 }
