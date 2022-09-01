@@ -26,20 +26,26 @@ public class ForkjoinPool {
         tasks.add(new MyTaskA("3", 2000));
         tasks.add(new MyTaskA("4", 5000));
 
-        List<Object> collect = pool.invokeAll(tasks, 1, TimeUnit.SECONDS).stream().map(f -> {
-            CommonResult<Object> commonResult = new CommonResult<>();
-            try {
-                System.out.println(f.toString());
-                Object o = f.get();
-                commonResult.setData(o);
-                commonResult.setOk(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-                commonResult.setOk(false);
-            }
-            return commonResult;
-        }).filter(Objects::nonNull).collect(Collectors.toList());
-        System.out.println(collect);
+
+        List<Future<Object>> futures = pool.invokeAll(tasks, 1, TimeUnit.SECONDS);
+
+
+        System.out.println(futures);
+
+//        List<Object> collect = pool.invokeAll(tasks, 1, TimeUnit.SECONDS).stream().map(f -> {
+//            CommonResult<Object> commonResult = new CommonResult<>();
+//            try {
+//                System.out.println(f.toString());
+//                Object o = f.get();
+//                commonResult.setData(o);
+//                commonResult.setOk(true);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                commonResult.setOk(false);
+//            }
+//            return commonResult;
+//        }).filter(Objects::nonNull).collect(Collectors.toList());
+//        System.out.println(collect);
         System.out.println("--------task -----");
     }
 }
