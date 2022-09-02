@@ -3,6 +3,7 @@ package com.learn.boot.advice;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
+import com.learn.boot.utils.Response;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -36,6 +37,13 @@ public class RestResponseBodyAdvice implements ResponseBodyAdvice {
         HttpServletRequest servletRequest = ((ServletServerHttpRequest) serverHttpRequest).getServletRequest();
         HttpServletResponse response = ((ServletServerHttpResponse) serverHttpResponse).getServletResponse();
         String callback = servletRequest.getParameter("callback");
+        if (o instanceof Response) {
+            if (((Response<?>) o).getCode() != 200) {
+                response.setHeader("errorHeader", ((Response<?>) o).getCode() + "");
+            }
+        }
+
+
         if (StrUtil.isNotBlank(callback)) {
             String jsonString = JSON.toJSONString(o);
             jsonString = new StringBuilder(callback).append("([").append(jsonString).append("])").toString();

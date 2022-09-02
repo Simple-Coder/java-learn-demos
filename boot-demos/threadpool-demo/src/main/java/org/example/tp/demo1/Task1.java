@@ -19,6 +19,7 @@ public class Task1 implements TaskResult<Integer> {
     public Integer call() throws Exception {
         Response<Integer> response = new Response<>();
         response.setSuccess(false);
+        context.get().add(response);
         if (mis < 0) {
             throw new RuntimeException("mis 不能小于0");
         }
@@ -26,7 +27,6 @@ public class Task1 implements TaskResult<Integer> {
         response.setData(Integer.parseInt(mis + ""));
         response.setMsg("成功睡眠了" + mis);
         response.setSuccess(true);
-        context.get().add(response);
         return Integer.parseInt(mis + "");
     }
 }
