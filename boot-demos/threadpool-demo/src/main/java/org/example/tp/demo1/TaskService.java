@@ -24,26 +24,29 @@ public class TaskService {
         context.set(new ArrayList<>());
 
         List<TaskResult<Integer>> taskResults = new ArrayList<>();
-        taskResults.add(new Task1(context,1000));
-        taskResults.add(new Task1(context,1200));
-        taskResults.add(new Task1(context,3000));
-        taskResults.add(new Task1(context,-1));
+        taskResults.add(new Task1(context, 1000));
+//        taskResults.add(new Task1(context, 1200));
+//        taskResults.add(new Task1(context, 3000));
+        taskResults.add(new Task1(context, -1));
+        System.out.println(context.get());
+        long start = System.currentTimeMillis();
         List<Future<Integer>> futures = executorService.invokeAll(taskResults, 3, TimeUnit.SECONDS);
 
-        futures.stream().map(f-> {
-            try {
-                return f.get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            return null;
-        }).collect(Collectors.toList());
+//        futures.stream().map(f-> {
+//            try {
+//                return f.get();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            } catch (ExecutionException e) {
+//                e.printStackTrace();
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }).collect(Collectors.toList());
 
         List<Response<Integer>> responses = context.get();
         System.out.println(responses);
+        System.out.println("cost:" + (System.currentTimeMillis() - start));
     }
 }
