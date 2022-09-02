@@ -1,5 +1,6 @@
 package org.example.metrics.outer;
 
+import cn.hutool.http.HttpUtil;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -48,8 +49,25 @@ public class OuterClient {
     }
 
     @SuppressWarnings("unused")
-    public Object getHystrixTestFallback(int num,Throwable e) {
+    public Object getHystrixTestFallback(int num, Throwable e) {
         log.error("getHystrixTestFallback errOr", e);
         return "getHystrixTestFallback error";
     }
+
+
+    @HystrixCommand(
+            fallbackMethod = "getBaiduInfoFallback",
+            groupKey = "getBaiduInfoGroup",
+            threadPoolKey = "getBaiduInfoPool"
+    )
+    public String getBaiduInfo() {
+        return HttpUtil.createGet("htts://www.baidu.com").timeout(1).execute().body();
+    }
+
+    @SuppressWarnings("unused")
+    public Object getBaiduInfoFallback(Throwable e) {
+        log.error("getBaiduInfoFallback errOr", e);
+        return null;
+    }
+
 }
