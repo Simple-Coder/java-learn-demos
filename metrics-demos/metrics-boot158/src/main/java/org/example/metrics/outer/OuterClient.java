@@ -1,5 +1,6 @@
 package org.example.metrics.outer;
 
+import cn.hutool.http.HttpException;
 import cn.hutool.http.HttpUtil;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -16,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @DefaultProperties(
         commandProperties = {
-                @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000"),
+                @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "100"),
                 //请求的失败数目超过这个之后，就会打开熔断器
                 @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
                 //熔断器工作时间，默认5秒，超过这个时间便会放流量进去
@@ -44,30 +45,59 @@ public class OuterClient {
             threadPoolKey = "getHystrixTestPool"
     )
     public Object getHystrixTest(int num) {
-        String forObject = restTemplate.getForObject("http://127.0.0.1:8989/hystrix/test1?num=" + num, String.class);
+        String forObject = restTemplate.getForObject("http://127.0.0.1:9999/hystrix/test1?num=" + num, String.class);
         return forObject + restTemplate.toString();
     }
 
     @SuppressWarnings("unused")
     public Object getHystrixTestFallback(int num, Throwable e) {
-        log.error("getHystrixTestFallback errOr", e);
+//        log.error("getHystrixTestFallback errOr", e);
+        log.error("getHystrixTestFallback errOr");
         return "getHystrixTestFallback error";
     }
 
 
     @HystrixCommand(
-            fallbackMethod = "getBaiduInfoFallback",
-            groupKey = "getBaiduInfoGroup",
-            threadPoolKey = "getBaiduInfoPool"
+            fallbackMethod = "getAFallback",
+            groupKey = "getAGroup",
+            threadPoolKey = "getAPool"
     )
-    public String getBaiduInfo() {
-        return HttpUtil.createGet("htts://www.baidu.com").timeout(1).execute().body();
+    public String getA() {
+        try {
+            return HttpUtil.createGet("https://www.baidu.com").timeout(1).execute().body();
+        } catch (Exception e) {
+            log.info("getA方法");
+            return null;
+        }
     }
 
     @SuppressWarnings("unused")
-    public Object getBaiduInfoFallback(Throwable e) {
-        log.error("getBaiduInfoFallback errOr", e);
+    public String getAFallback(Throwable e) {
+        log.error("getAFallback 执行降级方法");
         return null;
     }
+
+
+
+    @HystrixCommand(
+            fallbackMethod = "getBFallback",
+            groupKey = "getBGroup",
+            threadPoolKey = "getBPool"
+    )
+    public String getB() {
+        try {
+            return HttpUtil.createGet("https://www.baidu.com").timeout(100000).execute().body();
+        } catch (Exception e) {
+            log.info("getB方法");
+            return null;
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public String getBFallback(Throwable e) {
+        log.error("getBFallback 执行降级方法");
+        return null;
+    }
+
 
 }

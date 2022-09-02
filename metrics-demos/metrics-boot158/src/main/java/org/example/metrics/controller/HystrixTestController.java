@@ -33,4 +33,5 @@ public class HystrixTestController {
         return Thread.currentThread().getName();
     }
 
+
 }
