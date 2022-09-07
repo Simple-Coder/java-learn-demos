@@ -13,6 +13,7 @@
         <module>starter-demos</module>
         <module>design-patterns-demos</module>
         <module>boot-demos</module>
+        <module>xx-lottery</module>
     </modules>
 
     <properties>
