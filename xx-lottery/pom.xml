@@ -18,6 +18,7 @@
         <module>lottery-domain</module>
         <module>lottery-infrastructure</module>
         <module>lottery-interfaces</module>
+        <module>lottery-test</module>
     </modules>
     <properties>
         <!-- Base -->
