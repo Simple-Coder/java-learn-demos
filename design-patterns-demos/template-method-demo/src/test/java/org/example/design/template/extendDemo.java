@@ -23,6 +23,7 @@ class Animal {
     protected String name;
     protected int age;
 }
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 class Cat extends Animal {

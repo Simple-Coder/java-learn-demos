@@ -13,7 +13,7 @@
 
     <properties>
         <spring-boot.version>1.5.8.RELEASE</spring-boot.version>
-        <hutool-all.version>5.7.21</hutool-all.version>
+        <hutool-all.version>5.8.7</hutool-all.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
     </properties>
     <dependencyManagement>
