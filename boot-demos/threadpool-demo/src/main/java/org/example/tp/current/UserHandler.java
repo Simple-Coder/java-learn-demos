@@ -46,56 +46,63 @@ public class UserHandler {
         ThreadPoolExecutor taskExecutor = globalTp.getTaskExecutor();
 
 
-//        CountDownLatch countDownLatch = new CountDownLatch(1);
-//        List<Callable<Void>> tasks = new ArrayList<>();
-//
-//        tasks.add(() -> {
-//            Map addressInfos = outerService.getAddressInfos(reqName);
-//            rspBean.setAddressInfos(addressInfos);
-//            return null;
-//        });
-//
-//        tasks.add(() -> {
-//            Map schoolInfos = outerService.getSchoolInfos(reqName);
-//            rspBean.setSchoolInfos(schoolInfos);
-//            return null;
-//        });
-//        tasks.add(() -> {
-//            Map montherInfos = outerService.getMontherInfos(reqName);
-//            rspBean.setMontherInfos(montherInfos);
-//            return null;
-//        });
-//
-//        taskExecutor.invokeAll(tasks, 1, TimeUnit.SECONDS);
-
         CountDownLatch countDownLatch = new CountDownLatch(3);
-        //1.addressInfos
-        taskExecutor.submit(() -> {
+        List<Callable<Void>> tasks = new ArrayList<>();
+
+        tasks.add(() -> {
             Map addressInfos = outerService.getAddressInfos(reqName);
             rspBean.setAddressInfos(addressInfos);
             countDownLatch.countDown();
+            return null;
         });
-        //2.schoolInfos
-        taskExecutor.submit(() -> {
+
+        tasks.add(() -> {
             Map schoolInfos = outerService.getSchoolInfos(reqName);
             rspBean.setSchoolInfos(schoolInfos);
             countDownLatch.countDown();
+            return null;
         });
-
-
-
-
-        //3.montherInfos
-        taskExecutor.submit(() -> {
+        tasks.add(() -> {
             Map montherInfos = outerService.getMontherInfos(reqName);
             rspBean.setMontherInfos(montherInfos);
             countDownLatch.countDown();
+            return null;
         });
+
+        taskExecutor.invokeAll(tasks, 1, TimeUnit.SECONDS);
+//        CountDownLatch countDownLatch = new CountDownLatch(3);
+//        //1.addressInfos
+//        taskExecutor.submit(() -> {
+//            Map addressInfos = outerService.getAddressInfos(reqName);
+//            rspBean.setAddressInfos(addressInfos);
+//            countDownLatch.countDown();
+//        });
+//        //2.schoolInfos
+//        taskExecutor.submit(() -> {
+//            Map schoolInfos = outerService.getSchoolInfos(reqName);
+//            rspBean.setSchoolInfos(schoolInfos);
+//            countDownLatch.countDown();
+//        });
+//
+//
+//
+//
+//        //3.montherInfos
+//        taskExecutor.submit(() -> {
+//            Map montherInfos = outerService.getMontherInfos(reqName);
+//            rspBean.setMontherInfos(montherInfos);
+//            countDownLatch.countDown();
+//        });
 
         rspBean.setRspName("test");
         System.out.println(Thread.currentThread().getName() + "do handle end...");
 
-        countDownLatch.await();
+        try {
+            //不能抛上去，否则会影响其他流程执行
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void postFilter(UserContext ctx) {
