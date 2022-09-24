@@ -12,29 +12,61 @@ import java.util.concurrent.TimeUnit;
  * Date: 2022/9/24 18:40
  */
 public class GlobalTp {
-    public ThreadPoolExecutor getExecutor() {
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10, 10,
-                60, TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(300),
-                Executors.defaultThreadFactory(),
-                //拒绝策略：由调用线程处理
-//                new ThreadPoolExecutor.CallerRunsPolicy()
-                //拒绝策略：丢弃任务抛出reject异常
-                new ThreadPoolExecutor.AbortPolicy()
-        );
-        return threadPoolExecutor;
+
+    private ThreadPoolExecutor globalExetor;
+    private ThreadPoolExecutor taskExecutor;
+
+    private GlobalTp() {
     }
 
-    public ThreadPoolExecutor getTaskExecutor() {
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10, 10,
-                60, TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(300),
-                Executors.defaultThreadFactory(),
-                //拒绝策略：由调用线程处理
+    public ThreadPoolExecutor getGlobalExecutor() {
+        if (globalExetor == null) {
+            synchronized (GlobalTp.class) {
+                if (globalExetor == null) {
+                    globalExetor = new ThreadPoolExecutor(10, 10,
+                            60, TimeUnit.SECONDS,
+                            new ArrayBlockingQueue<>(300),
+                            Executors.defaultThreadFactory(),
+                            //拒绝策略：由调用线程处理
 //                new ThreadPoolExecutor.CallerRunsPolicy()
-                //拒绝策略：丢弃任务抛出reject异常
-                new ThreadPoolExecutor.AbortPolicy()
-        );
-        return threadPoolExecutor;
+                            //拒绝策略：丢弃任务抛出reject异常
+                            new ThreadPoolExecutor.AbortPolicy()
+                    );
+                }
+            }
+        }
+        return globalExetor;
+    }
+
+    public void shutDownGlobalExecutor() {
+        if (this.globalExetor != null) {
+            this.globalExetor.shutdown();
+        }
+    }
+
+
+    public ThreadPoolExecutor getTaskExecutor() {
+        if (taskExecutor == null) {
+            synchronized (GlobalTp.class) {
+                if (taskExecutor == null) {
+                    taskExecutor = new ThreadPoolExecutor(10, 10,
+                            60, TimeUnit.SECONDS,
+                            new ArrayBlockingQueue<>(300),
+                            Executors.defaultThreadFactory(),
+                            //拒绝策略：由调用线程处理
+//                new ThreadPoolExecutor.CallerRunsPolicy()
+                            //拒绝策略：丢弃任务抛出reject异常
+                            new ThreadPoolExecutor.AbortPolicy()
+                    );
+                }
+            }
+        }
+        return taskExecutor;
+    }
+
+    public void shutDownTaskExecutor() {
+        if (this.taskExecutor != null) {
+            this.taskExecutor.shutdown();
+        }
     }
 }
