@@ -1,0 +1,68 @@
+package org.example.tp.current;
+
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.TimeInterval;
+import org.example.tp.GlobalTp;
+
+import java.util.Map;
+
+/**
+ * Created by xiedong
+ * Date: 2022/9/24 18:35
+ */
+public class UserHandler {
+    public void handle(UserContext ctx) {
+        TimeInterval timer = DateUtil.timer();
+        try {
+            this.loadData(ctx);
+
+            this.preFilter(ctx);
+
+            this.dohandle(ctx);
+
+            this.postFilter(ctx);
+
+            ctx.setSuccess(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(Thread.currentThread().getName() + "cost:" + timer.intervalPretty());
+    }
+
+    private void dohandle(UserContext ctx) {
+        GlobalTp globalTp = new GlobalTp();
+        OuterService outerService = new OuterService();
+        System.out.println(Thread.currentThread().getName() + "do handle start...");
+
+        String reqName = ctx.getReqName();
+        RspBean rspBean = ctx.getRspBean();
+        //1.addressInfos
+        Map addressInfos = outerService.getAddressInfos(reqName);
+        rspBean.setAddressInfos(addressInfos);
+
+        //2.schoolInfos
+        Map schoolInfos = outerService.getSchoolInfos(reqName);
+        rspBean.setSchoolInfos(schoolInfos);
+
+        //3.montherInfos
+        Map montherInfos = outerService.getMontherInfos(reqName);
+        rspBean.setMontherInfos(montherInfos);
+
+        System.out.println(Thread.currentThread().getName() + "do handle end...");
+    }
+
+    private void postFilter(UserContext ctx) {
+        System.out.println(Thread.currentThread().getName() + "postfilter");
+    }
+
+    private void preFilter(UserContext ctx) {
+        System.out.println(Thread.currentThread().getName() + "prefilter...");
+    }
+
+    private void loadData(UserContext ctx) {
+        System.out.println(Thread.currentThread().getName() + "load data");
+        ctx.setReqName(Thread.currentThread().getName() + "load data..");
+        ctx.setRspBean(new RspBean());
+    }
+}
