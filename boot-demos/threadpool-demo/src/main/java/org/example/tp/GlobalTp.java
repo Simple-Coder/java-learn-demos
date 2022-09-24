@@ -16,9 +16,6 @@ public class GlobalTp {
     private ThreadPoolExecutor globalExetor;
     private ThreadPoolExecutor taskExecutor;
 
-    private GlobalTp() {
-    }
-
     public ThreadPoolExecutor getGlobalExecutor() {
         if (globalExetor == null) {
             synchronized (GlobalTp.class) {
