@@ -29,21 +29,23 @@ public class Demo {
         UserHandler userHandler = new UserHandler();
 
 
-        List<Callable<RspBean>> tasks = contexts.stream().map(f -> (Callable<RspBean>) () -> {
+        List<Callable<Void>> tasks = contexts.stream().map(context -> (Callable<Void>) () -> {
             try {
-                userHandler.handle(f);
-                return f.getRspBean();
+                userHandler.handle(context);
             } catch (Exception e) {
                 System.out.println("执行异常了" + e);
-                return null;
             }
-        }).filter(Objects::nonNull).collect(Collectors.toList());
+            return null;
+        }).collect(Collectors.toList());
         executor.invokeAll(tasks, timeOut, seconds);
         System.out.println("result:" + JSONUtil.toJsonStr(contexts));
 
 
         globalTp.shutDownGlobalExecutor();
         globalTp.shutDownTaskExecutor();
+
+
+        System.out.println("ok...");
     }
 
     private static List<UserContext> buildContexts() {

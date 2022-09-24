@@ -5,9 +5,13 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import org.example.tp.GlobalTp;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by xiedong
@@ -40,6 +44,29 @@ public class UserHandler {
         String reqName = ctx.getReqName();
         RspBean rspBean = ctx.getRspBean();
         ThreadPoolExecutor taskExecutor = globalTp.getTaskExecutor();
+
+
+//        CountDownLatch countDownLatch = new CountDownLatch(1);
+//        List<Callable<Void>> tasks = new ArrayList<>();
+//
+//        tasks.add(() -> {
+//            Map addressInfos = outerService.getAddressInfos(reqName);
+//            rspBean.setAddressInfos(addressInfos);
+//            return null;
+//        });
+//
+//        tasks.add(() -> {
+//            Map schoolInfos = outerService.getSchoolInfos(reqName);
+//            rspBean.setSchoolInfos(schoolInfos);
+//            return null;
+//        });
+//        tasks.add(() -> {
+//            Map montherInfos = outerService.getMontherInfos(reqName);
+//            rspBean.setMontherInfos(montherInfos);
+//            return null;
+//        });
+//
+//        taskExecutor.invokeAll(tasks, 1, TimeUnit.SECONDS);
 
         CountDownLatch countDownLatch = new CountDownLatch(3);
         //1.addressInfos
