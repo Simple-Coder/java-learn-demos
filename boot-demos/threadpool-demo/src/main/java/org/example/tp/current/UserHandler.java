@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * Date: 2022/9/24 18:35
  */
 public class UserHandler {
-    public void handle(UserContext ctx) {
+    public void handle(UserContext ctx) throws InterruptedException {
         TimeInterval timer = DateUtil.timer();
         try {
             this.loadData(ctx);
@@ -27,7 +27,7 @@ public class UserHandler {
 
             ctx.setSuccess(true);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
         }
         System.out.println(Thread.currentThread().getName() + "cost:" + timer.intervalPretty());
     }
@@ -55,6 +55,9 @@ public class UserHandler {
             countDownLatch.countDown();
         });
 
+
+
+
         //3.montherInfos
         taskExecutor.submit(() -> {
             Map montherInfos = outerService.getMontherInfos(reqName);
@@ -78,7 +81,6 @@ public class UserHandler {
 
     private void loadData(UserContext ctx) {
         System.out.println(Thread.currentThread().getName() + "load data");
-        ctx.setReqName(Thread.currentThread().getName() + "load data..");
         ctx.setRspBean(new RspBean());
     }
 }
