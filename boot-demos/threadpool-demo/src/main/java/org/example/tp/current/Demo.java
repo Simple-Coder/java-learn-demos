@@ -21,7 +21,7 @@ public class Demo {
     public static void main(String[] args) {
         GlobalTp globalTp = new GlobalTp();
         ThreadPoolExecutor executor = globalTp.getGlobalExecutor();
-        int timeOut = 2;
+        int timeOut = 5;
         TimeUnit seconds = TimeUnit.SECONDS;
 
 

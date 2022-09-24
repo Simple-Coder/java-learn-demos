@@ -32,8 +32,9 @@ public class UserHandler {
             ctx.setSuccess(true);
         } catch (Exception e) {
             throw e;
+        }finally {
+            System.out.println(Thread.currentThread().getName() + "cost:" + timer.intervalPretty());
         }
-        System.out.println(Thread.currentThread().getName() + "cost:" + timer.intervalPretty());
     }
 
     private void dohandle(UserContext ctx) throws InterruptedException {

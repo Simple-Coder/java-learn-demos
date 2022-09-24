@@ -46,14 +46,14 @@ public class GlobalTp {
         if (taskExecutor == null) {
             synchronized (GlobalTp.class) {
                 if (taskExecutor == null) {
-                    taskExecutor = new ThreadPoolExecutor(10, 10,
+                    taskExecutor = new ThreadPoolExecutor(1, 1,
                             60, TimeUnit.SECONDS,
-                            new ArrayBlockingQueue<>(300),
+                            new ArrayBlockingQueue<>(1),
                             Executors.defaultThreadFactory(),
                             //拒绝策略：由调用线程处理
-//                new ThreadPoolExecutor.CallerRunsPolicy()
+                new ThreadPoolExecutor.CallerRunsPolicy()
                             //拒绝策略：丢弃任务抛出reject异常
-                            new ThreadPoolExecutor.AbortPolicy()
+//                            new ThreadPoolExecutor.AbortPolicy()
                     );
                 }
             }
