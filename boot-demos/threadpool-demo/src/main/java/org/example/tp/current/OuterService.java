@@ -17,7 +17,7 @@ public class OuterService {
         HashMap<String, String> infos = MapUtil.newHashMap();
         infos.put(name, name);
         infos.put("address", "test");
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         return infos;
     }
 
@@ -35,7 +35,7 @@ public class OuterService {
         HashMap<String, String> infos = MapUtil.newHashMap();
         infos.put(name, name);
         infos.put("mother", "test");
-        Thread.sleep(2000);
+        Thread.sleep(3000);
         return infos;
     }
 

@@ -2,7 +2,7 @@ package org.example.tp.current;
 
 import lombok.Data;
 
-import java.util.Map;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by xiedong
@@ -14,4 +14,5 @@ public class UserContext {
     private boolean success;
 
     private RspBean rspBean;
+
 }

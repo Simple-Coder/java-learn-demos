@@ -6,6 +6,8 @@ import cn.hutool.core.date.TimeInterval;
 import org.example.tp.GlobalTp;
 
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by xiedong
@@ -30,26 +32,40 @@ public class UserHandler {
         System.out.println(Thread.currentThread().getName() + "cost:" + timer.intervalPretty());
     }
 
-    private void dohandle(UserContext ctx) {
-        GlobalTp globalTp = new GlobalTp();
+    private void dohandle(UserContext ctx) throws InterruptedException {
         OuterService outerService = new OuterService();
+        GlobalTp globalTp = new GlobalTp();
         System.out.println(Thread.currentThread().getName() + "do handle start...");
 
         String reqName = ctx.getReqName();
         RspBean rspBean = ctx.getRspBean();
-        //1.addressInfos
-        Map addressInfos = outerService.getAddressInfos(reqName);
-        rspBean.setAddressInfos(addressInfos);
+        ThreadPoolExecutor taskExecutor = globalTp.getTaskExecutor();
 
+        CountDownLatch countDownLatch = new CountDownLatch(3);
+        //1.addressInfos
+        taskExecutor.submit(() -> {
+            Map addressInfos = outerService.getAddressInfos(reqName);
+            rspBean.setAddressInfos(addressInfos);
+            countDownLatch.countDown();
+        });
         //2.schoolInfos
-        Map schoolInfos = outerService.getSchoolInfos(reqName);
-        rspBean.setSchoolInfos(schoolInfos);
+        taskExecutor.submit(() -> {
+            Map schoolInfos = outerService.getSchoolInfos(reqName);
+            rspBean.setSchoolInfos(schoolInfos);
+            countDownLatch.countDown();
+        });
 
         //3.montherInfos
-        Map montherInfos = outerService.getMontherInfos(reqName);
-        rspBean.setMontherInfos(montherInfos);
+        taskExecutor.submit(() -> {
+            Map montherInfos = outerService.getMontherInfos(reqName);
+            rspBean.setMontherInfos(montherInfos);
+            countDownLatch.countDown();
+        });
 
+        rspBean.setRspName("test");
         System.out.println(Thread.currentThread().getName() + "do handle end...");
+
+        countDownLatch.await();
     }
 
     private void postFilter(UserContext ctx) {

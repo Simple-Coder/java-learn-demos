@@ -18,7 +18,7 @@ public class Demo {
     @SneakyThrows
     public static void main(String[] args) {
         GlobalTp globalTp = new GlobalTp();
-        ThreadPoolExecutor executor = globalTp.getExecutor();
+        ThreadPoolExecutor executor = globalTp.getGlobalExecutor();
 
 
         List<UserContext> contexts = buildContexts();
@@ -31,7 +31,10 @@ public class Demo {
         }).collect(Collectors.toList());
         executor.invokeAll(tasks);
         System.out.println("result:" + JSONUtil.toJsonStr(contexts));
-        executor.shutdown();
+
+
+        globalTp.shutDownGlobalExecutor();
+        globalTp.shutDownTaskExecutor();
     }
 
     private static List<UserContext> buildContexts() {
@@ -39,7 +42,6 @@ public class Demo {
         for (int i = 0; i < 5; i++) {
             UserContext userContext = new UserContext();
             userContext.setReqName("context" + i);
-
             contexts.add(userContext);
         }
         return contexts;

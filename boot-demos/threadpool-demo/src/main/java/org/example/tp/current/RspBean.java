@@ -13,4 +13,6 @@ public class RspBean {
     private Map addressInfos;
     private Map schoolInfos;
     private Map montherInfos;
+
+    private String rspName;
 }
