@@ -6,6 +6,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
+import org.example.metrics.aspect.HystrixFallback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -22,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
                 @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
                 //熔断器工作时间，默认5秒，超过这个时间便会放流量进去
                 @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds", value = "3000"),
+//                @HystrixProperty(name = "circuitBreaker.forceOpen", value = "true"),
                 //出错率超过75%，启动熔断器，默认50%
                 @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage", value = "75")
         },
@@ -40,10 +42,12 @@ public class OuterClient {
     private RestTemplate restTemplate;
 
     @HystrixCommand(
+            commandKey = "getHystrixTestCommand",
             fallbackMethod = "getHystrixTestFallback",
             groupKey = "getHystrixTestGroup",
             threadPoolKey = "getHystrixTestPool"
     )
+    @HystrixFallback(fallback = true)
     public Object getHystrixTest(int num) {
         String forObject = restTemplate.getForObject("http://127.0.0.1:9999/hystrix/test1?num=" + num, String.class);
         return forObject + restTemplate.toString();
@@ -76,7 +80,6 @@ public class OuterClient {
         log.error("getAFallback 执行降级方法");
         return null;
     }
-
 
 
     @HystrixCommand(
