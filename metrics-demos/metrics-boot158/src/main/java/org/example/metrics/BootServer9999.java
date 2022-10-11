@@ -12,7 +12,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
  */
 @SpringBootApplication
 @EnableHystrix
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 //@EnableControllerCost
 public class BootServer9999 {
     public static void main(String[] args) {
