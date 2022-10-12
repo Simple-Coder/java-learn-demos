@@ -49,7 +49,7 @@ public class OuterClient {
     )
     @HystrixFallback(fallback = true)
     public Object getHystrixTest(int num) {
-        String forObject = restTemplate.getForObject("http://127.0.0.1:9999/hystrix/test1?num=" + num, String.class);
+        String forObject = restTemplate.getForObject("http://127.0.0.1:8080/hystrix/test1?num=" + num, String.class);
         return forObject + restTemplate.toString();
     }
 

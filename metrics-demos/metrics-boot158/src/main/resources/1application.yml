@@ -46,4 +46,4 @@ hystrix:
   command:
     getHystrixTestCommand:
       circuitBreaker:
-        forceOpen: true
+        forceOpen: false

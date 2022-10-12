@@ -1,6 +1,7 @@
 package org.example.metrics.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.metrics.config.SystemVariableService;
 import org.example.metrics.outer.OuterClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +19,19 @@ public class HystrixTestController {
     @Autowired
     private OuterClient outerClient;
 
+    @Autowired
+    private SystemVariableService systemVariableService;
+
     // http://127.0.0.1:8989/hystrix/test?num=12
     @GetMapping("/test")
     public Object test(@RequestParam int num) {
+
+        systemVariableService.putSystemConfigValueByKey("circuitForceFlag", "" + (num % 2));
+//        if (num % 2 == 0) {
+//            System.setProperty("hystrix.command.getHystrixTestCommand.circuitBreaker.forceOpen","true");
+//        } else {
+//            System.setProperty("hystrix.command.getHystrixTestCommand.circuitBreaker.forceOpen","false");
+//        }
         return outerClient.getHystrixTest(num);
     }
 
