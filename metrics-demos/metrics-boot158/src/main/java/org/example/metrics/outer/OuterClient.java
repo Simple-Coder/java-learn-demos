@@ -8,6 +8,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.example.metrics.aspect.HystrixFallback;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -40,16 +41,21 @@ import org.springframework.web.client.RestTemplate;
 public class OuterClient {
     @Autowired
     private RestTemplate restTemplate;
-
+    @Value("${server.port}")
+    private Long serverPort;
     @HystrixCommand(
             commandKey = "getHystrixTestCommand",
             fallbackMethod = "getHystrixTestFallback",
             groupKey = "getHystrixTestGroup",
             threadPoolKey = "getHystrixTestPool"
     )
+
+
+
     @HystrixFallback(fallback = true)
     public Object getHystrixTest(int num) {
-        String forObject = restTemplate.getForObject("http://127.0.0.1:8080/hystrix/test1?num=" + num, String.class);
+        String forObject = restTemplate.getForObject("http://127.0.0.1:" + serverPort + "/hystrix/test1?num=" + num, String.class);
+//        String forObject = restTemplate.getForObject("http://127.0.0.1:8080/hystrix/test1?num=" + num, String.class);
         return forObject + restTemplate.toString();
     }
 

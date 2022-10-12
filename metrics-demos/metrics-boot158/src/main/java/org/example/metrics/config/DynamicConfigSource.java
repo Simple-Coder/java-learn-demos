@@ -46,7 +46,8 @@ public class DynamicConfigSource implements PolledConfigurationSource {
 
 //调用者执行的超时时间
 
-complete.put("hystrix.command.default.circuitBreaker.forceOpen", false);
+//complete.put("hystrix.command.default.circuitBreaker.forceOpen", false);
+complete.put("hystrix.command.getHystrixTestCommand.circuitBreaker.forceOpen", false);
 //complete.put("hystrix.command.default.circuitBreaker.forceOpen", false);
 
                 complete.put("hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds", 500);
@@ -61,7 +62,8 @@ complete.put("hystrix.command.default.circuitBreaker.forceOpen", false);
 
 //调用者执行的超时时间
 
-complete.put("hystrix.command.default.circuitBreaker.forceOpen", true);
+//complete.put("hystrix.command.default.circuitBreaker.forceOpen", true);
+complete.put("hystrix.command.getHystrixTestCommand.circuitBreaker.forceOpen", true);
 //complete.put("hystrix.command.default.circuitBreaker.forceOpen", true);
 
                 complete.put("hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds", 1000);
