@@ -26,7 +26,7 @@ public class HystrixTestController {
     @GetMapping("/test")
     public Object test(@RequestParam int num) {
 
-        systemVariableService.putSystemConfigValueByKey("circuitForceFlag", "" + (num % 2));
+//        systemVariableService.putSystemConfigValueByKey("circuitForceFlag", "" + (num % 2));
 //        if (num % 2 == 0) {
 //            System.setProperty("hystrix.command.getHystrixTestCommand.circuitBreaker.forceOpen","true");
 //        } else {
@@ -38,10 +38,15 @@ public class HystrixTestController {
     @GetMapping("/test1")
     // http://127.0.0.1:8989/hystrix/test1?num=12
     public Object test1(@RequestParam int num) {
-        if (num % 10 == 0) {
-            throw new RuntimeException("num % 10 ==0");
+        try {
+            Thread.sleep(num);
+//        if (num % 10 == 0) {
+//            throw new RuntimeException("num % 10 ==0");
+//        }
+            return Thread.currentThread().getName();
+        } catch (InterruptedException e) {
+            return "timout error";
         }
-        return Thread.currentThread().getName();
     }
 
 

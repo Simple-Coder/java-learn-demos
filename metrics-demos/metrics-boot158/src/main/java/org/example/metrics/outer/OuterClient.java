@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @DefaultProperties(
         commandProperties = {
-                @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "100"),
+                @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000"),
                 //请求的失败数目超过这个之后，就会打开熔断器
                 @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "5"),
                 //熔断器工作时间，默认5秒，超过这个时间便会放流量进去
@@ -43,16 +43,13 @@ public class OuterClient {
     private RestTemplate restTemplate;
     @Value("${server.port}")
     private Long serverPort;
+
     @HystrixCommand(
             commandKey = "getHystrixTestCommand",
             fallbackMethod = "getHystrixTestFallback",
             groupKey = "getHystrixTestGroup",
             threadPoolKey = "getHystrixTestPool"
     )
-
-
-
-    @HystrixFallback(fallback = true)
     public Object getHystrixTest(int num) {
         String forObject = restTemplate.getForObject("http://127.0.0.1:" + serverPort + "/hystrix/test1?num=" + num, String.class);
 //        String forObject = restTemplate.getForObject("http://127.0.0.1:8080/hystrix/test1?num=" + num, String.class);
@@ -62,7 +59,7 @@ public class OuterClient {
     @SuppressWarnings("unused")
     public Object getHystrixTestFallback(int num, Throwable e) {
 //        log.error("getHystrixTestFallback errOr", e);
-        log.error("getHystrixTestFallback errOr");
+        log.error("getHystrixTestFallback errOr", e);
         return "getHystrixTestFallback error";
     }
 
