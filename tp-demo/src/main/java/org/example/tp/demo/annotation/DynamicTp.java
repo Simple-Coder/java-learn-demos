@@ -1,4 +1,4 @@
-package org.example.tp.demo;
+package org.example.tp.demo.annotation;
 
 import java.lang.annotation.*;
 
