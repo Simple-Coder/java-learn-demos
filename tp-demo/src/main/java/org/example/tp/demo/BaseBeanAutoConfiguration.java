@@ -1,4 +1,4 @@
-package org.example.tp.demo.config;
+package org.example.tp.demo;
 
 import org.example.tp.demo.core.DtpRegistry;
 import org.example.tp.demo.monitor.DtpMonitor;
