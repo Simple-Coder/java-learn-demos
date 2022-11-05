@@ -1,8 +1,10 @@
 package org.example.tp.demo.spring;
 
 import cn.hutool.core.util.StrUtil;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.binder.jvm.ExecutorServiceMetrics;
 import lombok.extern.slf4j.Slf4j;
-import org.example.tp.demo.DynamicTp;
+import org.example.tp.demo.annotation.DynamicTp;
 import org.example.tp.demo.core.DtpRegistry;
 import org.example.tp.demo.dto.ExecutorWrapper;
 import org.springframework.beans.BeansException;
@@ -37,11 +39,15 @@ public class DtpPostProcessor implements BeanPostProcessor {
         }
 
         ApplicationContext applicationContext = ApplicationContextHolder.getInstance();
+
+
         String dtpAnnotationVal;
+        boolean monitorTpVal = false;
         try {
             DynamicTp dynamicTp = applicationContext.findAnnotationOnBean(beanName, DynamicTp.class);
             if (Objects.nonNull(dynamicTp)) {
                 dtpAnnotationVal = dynamicTp.value();
+                monitorTpVal = dynamicTp.monitor();
             } else {
                 BeanDefinitionRegistry registry = (BeanDefinitionRegistry) applicationContext;
                 AnnotatedBeanDefinition annotatedBeanDefinition = (AnnotatedBeanDefinition) registry.getBeanDefinition(beanName);
@@ -55,15 +61,46 @@ public class DtpPostProcessor implements BeanPostProcessor {
             log.error("There is no bean with the given name {}", beanName, e);
             return bean;
         }
-
+        MeterRegistry meterRegistry = applicationContext.getBean(MeterRegistry.class);
         String poolName = StrUtil.isNotBlank(dtpAnnotationVal) ? dtpAnnotationVal : beanName;
         if (bean instanceof ThreadPoolTaskExecutor) {
             ThreadPoolTaskExecutor taskExecutor = (ThreadPoolTaskExecutor) bean;
             registerCommon(poolName, taskExecutor.getThreadPoolExecutor());
+            if (!monitorTpVal) {
+                return bean;
+            }
+            return ExecutorServiceMetrics.monitor(meterRegistry, taskExecutor, poolName, Collections.emptyList());
+
         } else {
+            if (!monitorTpVal) {
+                return bean;
+            }
             registerCommon(poolName, (ThreadPoolExecutor) bean);
+            return ExecutorServiceMetrics.monitor(meterRegistry, (ThreadPoolExecutor) bean, poolName, Collections.emptyList());
         }
-        return bean;
+
+
+//        MeterRegistry meterRegistry = applicationContext.getBean(MeterRegistry.class);
+//
+//
+//        ExecutorServiceMetrics.monitor(meterRegistry, null, null, null);
+//
+//
+//        final ThreadPoolTaskExecutor executor = new TaskExecutorBuilder()
+//                .corePoolSize(100) // With unlimited queue
+//                .allowCoreThreadTimeOut(true)
+//                .threadNamePrefix("task-")
+//                .build();
+//        executor.initialize();
+//        return ExecutorServiceMetrics.monitor(
+//                meterRegistry,
+//                executor.getThreadPoolExecutor(),
+//                "AsyncExecutor",
+//                "async",
+//                tags);
+
+
+//        return bean;
     }
 
 
