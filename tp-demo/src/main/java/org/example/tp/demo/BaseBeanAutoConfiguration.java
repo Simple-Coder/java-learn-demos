@@ -35,7 +35,7 @@ public class BaseBeanAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public DtpMonitor dtpMonitor() {
-        return new DtpMonitor();
+        return new DtpMonitor(null);
     }
 
 }

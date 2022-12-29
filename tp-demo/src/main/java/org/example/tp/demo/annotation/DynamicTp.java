@@ -17,4 +17,7 @@ public @interface DynamicTp {
      * @return name
      */
     String value() default "";
+
+
+    boolean monitor() default true;
 }
