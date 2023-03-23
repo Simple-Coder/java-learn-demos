@@ -9,6 +9,9 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xiedong
@@ -20,38 +23,56 @@ public class Test1 {
         String destiDataPath = "/Users/xiedong/PycharmProjects/diabetes-KGQA/data/clear_data/clear.json";
 
 
-        File[] listFiles = FileUtil.ls(initDataPath);
-        int countRecord = 0;
-        int countFIle = 0;
-        for (File listFile : listFiles) {
-            countFIle++;
-            String fileContent = FileUtil.readString(listFile, Charset.defaultCharset());
-            JSONObject jsonObject = JSON.parseObject(fileContent);
-            JSONArray paragraphs = jsonObject.getJSONArray("paragraphs");
-            for (int i = 0; i < paragraphs.size(); i++) {
-                JSONObject lineJson = paragraphs.getJSONObject(i);
-                FileUtil.appendUtf8Lines(Arrays.asList(lineJson.toJSONString()), new File(destiDataPath));
-                countRecord++;
-            }
-        }
-
-
-        System.out.println("记录行数：" + countRecord + ",文件个数：" + countFIle);
-
-//        FileUtil.writeBytes(jsonObject.toJSONString().getBytes(StandardCharsets.UTF_8),
-//                new File("/Users/xiedong/IdeaProjects/java-learn-demos/a.json"));
-        File readF = new File("/Users/xiedong/IdeaProjects/java-learn-demos/1.json");
-        String s = FileUtil.readString(readF, Charset.defaultCharset());
-        System.out.println(s);
-
-
-//        File file = new File("/Users/xiedong/IdeaProjects/java-learn-demos/a.json");
-//        JSONArray paragraphs = jsonObject.getJSONArray("paragraphs");
-//        for (int i = 0; i < paragraphs.size(); i++) {
-//            JSONObject lineJson = paragraphs.getJSONObject(i);
-//
-//            FileUtil.appendUtf8Lines(Arrays.asList(lineJson.toJSONString()), file);
+//        File[] listFiles = FileUtil.ls(initDataPath);
+//        int countRecord = 0;
+//        int countFIle = 0;
+//        for (File listFile : listFiles) {
+//            countFIle++;
+//            String fileContent = FileUtil.readString(listFile, Charset.defaultCharset());
+//            JSONObject jsonObject = JSON.parseObject(fileContent);
+//            JSONArray paragraphs = jsonObject.getJSONArray("paragraphs");
+//            for (int i = 0; i < paragraphs.size(); i++) {
+//                JSONObject lineJson = paragraphs.getJSONObject(i);
+//                FileUtil.appendUtf8Lines(Arrays.asList(lineJson.toJSONString()), new File(destiDataPath));
+//                countRecord++;
+//            }
 //        }
+//        System.out.println("记录行数：" + countRecord + ",文件个数：" + countFIle);
+
+
+
+
+        Map<String, Object> entitiesMap = new HashMap<>();//实体
+        Map<String, Object> relsMap = new HashMap<>();//关系
+        List<String> strings = FileUtil.readLines(destiDataPath, Charset.defaultCharset());
+        for (String string : strings) {
+
+            JSONObject json = JSON.parseObject(string);
+            JSONArray sentences = json.getJSONArray("sentences");
+            for (int i = 0; i < sentences.size(); i++) {
+                JSONObject jsonObject = sentences.getJSONObject(i);
+
+                //实体记录
+                JSONArray entities = jsonObject.getJSONArray("entities");
+                for (int i1 = 0; i1 < entities.size(); i1++) {
+                    JSONObject jsonObject1 = entities.getJSONObject(i1);
+                    String key = jsonObject1.getString("entity");
+                    String value = jsonObject1.getString("entity_type");
+                    entitiesMap.put(key, value);
+                }
+
+                //关系提取
+                JSONArray relations = jsonObject.getJSONArray("relations");
+                for (int i1 = 0; i1 < relations.size(); i1++) {
+                    JSONObject jsonObject1 = relations.getJSONObject(i1);
+                    String key = jsonObject1.getString("relation_type");
+                    relsMap.put(key, key);
+                }
+            }
+
+        }
+        System.out.println("发现实体记录：" + JSON.toJSONString(entitiesMap));
+        System.out.println("发现关系记录：" + JSON.toJSONString(relsMap));
 
         System.out.println();
     }
