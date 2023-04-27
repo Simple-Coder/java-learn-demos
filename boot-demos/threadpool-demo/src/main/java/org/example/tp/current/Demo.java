@@ -1,5 +1,7 @@
 package org.example.tp.current;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.TimeInterval;
 import cn.hutool.json.JSONUtil;
 import lombok.SneakyThrows;
 import org.example.tp.GlobalTp;
@@ -19,17 +21,19 @@ import java.util.stream.Collectors;
 public class Demo {
     @SneakyThrows
     public static void main(String[] args) {
+        TimeInterval timer = DateUtil.timer();
         GlobalTp globalTp = new GlobalTp();
         ThreadPoolExecutor executor = globalTp.getGlobalExecutor();
-        int timeOut = 5;
-        TimeUnit seconds = TimeUnit.SECONDS;
+        int timeOut = 1;
+        TimeUnit seconds = TimeUnit.MILLISECONDS;
 
 
-        List<UserContext> contexts = buildContexts();
-        UserHandler userHandler = new UserHandler();
+        List<UserContext> contexts = buildContexts(5);
+        UserHandler userHandler = new UserHandler(150);
 
 
-        List<Callable<Void>> tasks = contexts.stream().map(context -> (Callable<Void>) () -> {
+        List<Callable<Void>> tasks = contexts.stream()
+                .map(context -> (Callable<Void>) () -> {
             try {
                 userHandler.handle(context);
             } catch (Exception e) {
@@ -45,12 +49,12 @@ public class Demo {
         globalTp.shutDownTaskExecutor();
 
 
-        System.out.println("ok...");
+        System.out.println("ok...:"+timer.intervalPretty());
     }
 
-    private static List<UserContext> buildContexts() {
+    private static List<UserContext> buildContexts(int n) {
         List<UserContext> contexts = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < n; i++) {
             UserContext userContext = new UserContext();
             userContext.setReqName("context" + i);
             contexts.add(userContext);

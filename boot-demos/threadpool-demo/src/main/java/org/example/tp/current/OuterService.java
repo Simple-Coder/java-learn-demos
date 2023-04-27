@@ -13,29 +13,32 @@ import java.util.Map;
 
 public class OuterService {
     @SneakyThrows
-    public Map getAddressInfos(String name) {
+    public Map getAddressInfos(String name, long sleepTime) {
+        System.out.println("treadName:" + Thread.currentThread().getName() + " getAddressInfos sleepTime:" + sleepTime);
         HashMap<String, String> infos = MapUtil.newHashMap();
         infos.put(name, name);
         infos.put("address", "test");
-        Thread.sleep(1000);
+        Thread.sleep(sleepTime);
         return infos;
     }
 
     @SneakyThrows
-    public Map getSchoolInfos(String name) {
+    public Map getSchoolInfos(String name, long sleepTime) {
+        System.out.println("treadName:" + Thread.currentThread().getName() + " getSchoolInfos sleepTime:" + sleepTime);
         HashMap<String, String> infos = MapUtil.newHashMap();
         infos.put(name, name);
         infos.put("mother", "test");
-        Thread.sleep(2000);
+        Thread.sleep(sleepTime);
         return infos;
     }
 
     @SneakyThrows
-    public Map getMontherInfos(String name) {
+    public Map getMontherInfos(String name, long sleepTime) {
+        System.out.println("treadName:" + Thread.currentThread().getName() + " getMontherInfos sleepTime:" + sleepTime);
         HashMap<String, String> infos = MapUtil.newHashMap();
         infos.put(name, name);
         infos.put("mother", "test");
-        Thread.sleep(3000);
+        Thread.sleep(sleepTime);
         return infos;
     }
 

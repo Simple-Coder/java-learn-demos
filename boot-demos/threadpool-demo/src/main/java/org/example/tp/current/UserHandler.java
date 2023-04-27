@@ -18,6 +18,12 @@ import java.util.concurrent.TimeUnit;
  * Date: 2022/9/24 18:35
  */
 public class UserHandler {
+    private long sleepTime;
+
+    public UserHandler(long sleepTime) {
+        this.sleepTime = sleepTime;
+    }
+
     public void handle(UserContext ctx) throws InterruptedException {
         TimeInterval timer = DateUtil.timer();
         try {
@@ -32,7 +38,7 @@ public class UserHandler {
             ctx.setSuccess(true);
         } catch (Exception e) {
             throw e;
-        }finally {
+        } finally {
             System.out.println(Thread.currentThread().getName() + "cost:" + timer.intervalPretty());
         }
     }
@@ -47,75 +53,47 @@ public class UserHandler {
         ThreadPoolExecutor taskExecutor = globalTp.getTaskExecutor();
 
 
-        CountDownLatch countDownLatch = new CountDownLatch(3);
         List<Callable<Void>> tasks = new ArrayList<>();
 
         tasks.add(() -> {
-            Map addressInfos = outerService.getAddressInfos(reqName);
+            System.out.println("start setAddressInfos");
+            Map addressInfos = outerService.getAddressInfos(reqName, sleepTime);
             rspBean.setAddressInfos(addressInfos);
-            countDownLatch.countDown();
+            System.out.println("end setAddressInfos");
             return null;
         });
 
         tasks.add(() -> {
-            Map schoolInfos = outerService.getSchoolInfos(reqName);
+            System.out.println("start setSchoolInfos");
+            Map schoolInfos = outerService.getSchoolInfos(reqName, sleepTime * 2);
             rspBean.setSchoolInfos(schoolInfos);
-            countDownLatch.countDown();
+            System.out.println("end setSchoolInfos");
             return null;
         });
         tasks.add(() -> {
-            Map montherInfos = outerService.getMontherInfos(reqName);
+            System.out.println("start setMontherInfos");
+            Map montherInfos = outerService.getMontherInfos(reqName, sleepTime * 3);
             rspBean.setMontherInfos(montherInfos);
-            countDownLatch.countDown();
+            System.out.println("end setMontherInfos");
             return null;
         });
 
-        taskExecutor.invokeAll(tasks, 1, TimeUnit.SECONDS);
-//        CountDownLatch countDownLatch = new CountDownLatch(3);
-//        //1.addressInfos
-//        taskExecutor.submit(() -> {
-//            Map addressInfos = outerService.getAddressInfos(reqName);
-//            rspBean.setAddressInfos(addressInfos);
-//            countDownLatch.countDown();
-//        });
-//        //2.schoolInfos
-//        taskExecutor.submit(() -> {
-//            Map schoolInfos = outerService.getSchoolInfos(reqName);
-//            rspBean.setSchoolInfos(schoolInfos);
-//            countDownLatch.countDown();
-//        });
-//
-//
-//
-//
-//        //3.montherInfos
-//        taskExecutor.submit(() -> {
-//            Map montherInfos = outerService.getMontherInfos(reqName);
-//            rspBean.setMontherInfos(montherInfos);
-//            countDownLatch.countDown();
-//        });
+        taskExecutor.invokeAll(tasks, 1, TimeUnit.MILLISECONDS);
 
         rspBean.setRspName("test");
         System.out.println(Thread.currentThread().getName() + "do handle end...");
-
-        try {
-            //不能抛上去，否则会影响其他流程执行
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     private void postFilter(UserContext ctx) {
-        System.out.println(Thread.currentThread().getName() + "postfilter");
+//        System.out.println(Thread.currentThread().getName() + "postfilter");
     }
 
     private void preFilter(UserContext ctx) {
-        System.out.println(Thread.currentThread().getName() + "prefilter...");
+//        System.out.println(Thread.currentThread().getName() + "prefilter...");
     }
 
     private void loadData(UserContext ctx) {
-        System.out.println(Thread.currentThread().getName() + "load data");
+//        System.out.println(Thread.currentThread().getName() + "load data");
         ctx.setRspBean(new RspBean());
     }
 }
