@@ -15,6 +15,7 @@
         <module>boot-demos</module>
         <module>xx-lottery</module>
         <module>tp-demo</module>
+        <module>test-demos</module>
     </modules>
 
     <properties>
