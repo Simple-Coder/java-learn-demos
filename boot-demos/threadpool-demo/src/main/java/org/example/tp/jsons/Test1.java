@@ -1,6 +1,9 @@
 package org.example.tp.jsons;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IORuntimeException;
+import cn.hutool.core.lang.Filter;
+import cn.hutool.core.map.MapUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -19,27 +22,29 @@ import java.util.Map;
  */
 public class Test1 {
     public static void main(String[] args) {
-        String initDataPath = "/Users/xiedong/PycharmProjects/diabetes-KGQA/data/kg_data";
-        String destiDataPath = "/Users/xiedong/PycharmProjects/diabetes-KGQA/data/clear_data/clear.json";
+        String initDataPath = "D:\\dev\\PycharmProjects\\diabetes-KGQA\\server\\data\\kg\\kg_data";
+        String destiDataPath = "D:\\dev\\PycharmProjects\\diabetes-KGQA\\server\\data\\kg\\kg_data\\all.json";
 
 
-//        File[] listFiles = FileUtil.ls(initDataPath);
-//        int countRecord = 0;
-//        int countFIle = 0;
-//        for (File listFile : listFiles) {
-//            countFIle++;
-//            String fileContent = FileUtil.readString(listFile, Charset.defaultCharset());
-//            JSONObject jsonObject = JSON.parseObject(fileContent);
-//            JSONArray paragraphs = jsonObject.getJSONArray("paragraphs");
-//            for (int i = 0; i < paragraphs.size(); i++) {
-//                JSONObject lineJson = paragraphs.getJSONObject(i);
-//                FileUtil.appendUtf8Lines(Arrays.asList(lineJson.toJSONString()), new File(destiDataPath));
-//                countRecord++;
-//            }
-//        }
-//        System.out.println("记录行数：" + countRecord + ",文件个数：" + countFIle);
+//        String initDataPath = "/Users/xiedong/PycharmProjects/diabetes-KGQA/data/kg_data";
+//        String destiDataPath = "/Users/xiedong/PycharmProjects/diabetes-KGQA/data/clear_data/clear.json";
 
 
+        File[] listFiles = FileUtil.ls(initDataPath);
+        int countRecord = 0;
+        int countFIle = 0;
+        for (File listFile : listFiles) {
+            countFIle++;
+            String fileContent = FileUtil.readString(listFile, Charset.defaultCharset());
+            JSONObject jsonObject = JSON.parseObject(fileContent);
+            JSONArray paragraphs = jsonObject.getJSONArray("paragraphs");
+            for (int i = 0; i < paragraphs.size(); i++) {
+                JSONObject lineJson = paragraphs.getJSONObject(i);
+                FileUtil.appendUtf8Lines(Arrays.asList(lineJson.toJSONString()), new File(destiDataPath));
+                countRecord++;
+            }
+        }
+        System.out.println("记录行数：" + countRecord + ",文件个数：" + countFIle);
 
 
         Map<String, Object> entitiesMap = new HashMap<>();//实体
@@ -72,6 +77,10 @@ public class Test1 {
 
         }
         System.out.println("发现实体记录：" + JSON.toJSONString(entitiesMap));
+
+        Map<String, Object> disease = MapUtil.filter(entitiesMap, entry -> entry.getValue().equals("Disease"));
+        System.out.println("疾病实体：" + JSON.toJSONString(disease));
+
         System.out.println("发现关系记录：" + JSON.toJSONString(relsMap));
 
         System.out.println();
