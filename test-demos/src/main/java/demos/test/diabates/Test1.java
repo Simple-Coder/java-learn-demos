@@ -2,6 +2,8 @@ package demos.test.diabates;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -33,6 +35,9 @@ public class Test1 {
         for (File listFile : listFiles) {
             countFIle++;
             String fileContent = FileUtil.readString(listFile, Charset.defaultCharset());
+            if (listFile.getName().equals("all.json")) {
+                continue;
+            }
             JSONObject jsonObject = JSON.parseObject(fileContent);
             JSONArray paragraphs = jsonObject.getJSONArray("paragraphs");
             for (int i = 0; i < paragraphs.size(); i++) {
@@ -67,19 +72,41 @@ public class Test1 {
                 JSONArray relations = jsonObject.getJSONArray("relations");
                 for (int i1 = 0; i1 < relations.size(); i1++) {
                     JSONObject jsonObject1 = relations.getJSONObject(i1);
+                    //head_entity_id -> T2 tail_entity_id -> T0
+                    String head_entity_id = jsonObject1.getString("head_entity_id");
+                    String head_entity_Str = "";
+                    String tail_entity_id = jsonObject1.getString("tail_entity_id");
+                    String tail_entity_Str = "";
+
+                    for (int i2 = 0; i2 < entities.size(); i2++) {
+                        JSONObject entitiesJSONObject = entities.getJSONObject(i2);
+                        String entity_id = entitiesJSONObject.getString("entity_id");
+                        String entity = entitiesJSONObject.getString("entity");
+                        if (StrUtil.equals(entity_id, head_entity_id)) {
+                            head_entity_Str = entity;
+                        }
+                        if (StrUtil.equals(entity_id, tail_entity_id)) {
+                            tail_entity_Str = entity;
+                        }
+                    }
+
                     String key = jsonObject1.getString("relation_type");
-                    relsMap.put(key, key);
+                    List<String> split = StrUtil.split(key, StrUtil.UNDERLINE);
+                    String str1 = split.get(0);
+                    String str2 = split.get(1);
+                    relsMap.put(str2 + ":" + tail_entity_Str + "|" + str1 + ":" + head_entity_Str, key);
                 }
             }
 
         }
-        System.out.println("发现实体记录：" + JSON.toJSONString(entitiesMap));
+//        System.out.println("发现实体记录：" + JSON.toJSONString(entitiesMap));
 
-        Map<String, Object> disease = MapUtil.filter(entitiesMap, entry -> entry.getValue().equals("Disease"));
-        System.out.println("疾病实体：" + JSON.toJSONString(disease));
+//        Map<String, Object> disease = MapUtil.filter(entitiesMap, entry -> entry.getValue().equals("Disease"));
+//        System.out.println("疾病实体：" + JSON.toJSONString(disease));
 
-        System.out.println("发现关系记录：" + JSON.toJSONString(relsMap));
-
+//        System.out.println("发现关系记录：" + JSON.toJSONString(relsMap));
+        Map<String, Object> Reason_Disease = MapUtil.filter(relsMap, entry -> entry.getValue().equals("Reason_Disease"));
+        System.out.println("发现病因：" + JSON.toJSONString(Reason_Disease));
         System.out.println();
     }
 
