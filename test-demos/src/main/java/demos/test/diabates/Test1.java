@@ -151,8 +151,11 @@ public class Test1 {
 //        System.out.println("发现用药频率->药品名称：" + JSON.toJSONString(Frequency_Drug));
 
 
-        Map<String, Object> Test_items_Disease = MapUtil.filter(relsMap, entry -> entry.getValue().equals("Test_items_Disease"));
-        System.out.println("发现检查指标->疾病：" + JSON.toJSONString(Test_items_Disease));
+//        Map<String, Object> Test_items_Disease = MapUtil.filter(relsMap, entry -> entry.getValue().equals("Test_items_Disease"));
+//        System.out.println("发现检查指标->疾病：" + JSON.toJSONString(Test_items_Disease));
+
+        Map<String, Object> Symptom_Disease = MapUtil.filter(relsMap, entry -> entry.getValue().equals("Symptom_Disease"));
+        System.out.println("发现临床表现->疾病：" + JSON.toJSONString(Symptom_Disease));
     }
 
     public static final String a = "{\n" +
