@@ -40,7 +40,7 @@ public class DiseaseTest {
         private long id;
         private String text;
         private String intent;
-        private String slots;
+        private Object slots;
     }
 }
 
