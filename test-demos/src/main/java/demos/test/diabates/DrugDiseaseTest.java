@@ -19,8 +19,8 @@ import java.util.Map;
  */
 public class DrugDiseaseTest {
     public static void main(String[] args) {
-        String path = "D:\\dev\\IdeaProjects\\java-learn-demos\\d.json";
-        String destiDataPath = "D:\\dev\\IdeaProjects\\java-learn-demos\\d1.json";
+        String path = "D:\\dev\\IdeaProjects\\java-learn-demos\\e.json";
+        String destiDataPath = "D:\\dev\\IdeaProjects\\java-learn-demos\\e1.json";
         String fileContent = FileUtil.readString(path, Charset.defaultCharset());
 
         JSONObject jsonObject = JSON.parseObject(fileContent);
@@ -37,8 +37,8 @@ public class DrugDiseaseTest {
 //            String s2 = split.get(1);
 
             DiseaseTest.TrainData trainData = new DiseaseTest.TrainData();
-            trainData.setIntent("reason_disease");
-            trainData.setText(ss2 + "的病因是什么？");
+            trainData.setIntent("drug_disease");
+            trainData.setText(ss2 + "有什么好治疗方式，可用的治疗药物？");
             trainData.setId(0l);
             Map<String, String> map = new HashMap<>();
 
