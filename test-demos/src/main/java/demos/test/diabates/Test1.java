@@ -130,8 +130,11 @@ public class Test1 {
 //        System.out.println("发现用药方法->药品名称：" + JSON.toJSONString(Method_Drug));
 
         //
-        Map<String, Object> Anatomy_Disease = MapUtil.filter(relsMap, entry -> entry.getValue().equals("Anatomy_Disease"));
-        System.out.println("发现部位->疾病：" + JSON.toJSONString(Anatomy_Disease));
+//        Map<String, Object> Anatomy_Disease = MapUtil.filter(relsMap, entry -> entry.getValue().equals("Anatomy_Disease"));
+//        System.out.println("发现部位->疾病：" + JSON.toJSONString(Anatomy_Disease));
+
+        Map<String, Object> Operation_Disease = MapUtil.filter(relsMap, entry -> entry.getValue().equals("Operation_Disease"));
+        System.out.println("发现手术->疾病：" + JSON.toJSONString(Operation_Disease));
     }
 
     public static final String a = "{\n" +
