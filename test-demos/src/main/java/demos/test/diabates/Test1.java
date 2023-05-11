@@ -21,12 +21,12 @@ import java.util.Map;
  */
 public class Test1 {
     public static void main(String[] args) {
-        String initDataPath = "D:\\dev\\PycharmProjects\\diabetes-KGQA\\server\\data\\kg\\kg_data";
-        String destiDataPath = "D:\\dev\\PycharmProjects\\diabetes-KGQA\\server\\data\\kg\\kg_data\\all.json";
+//        String initDataPath = "D:\\dev\\PycharmProjects\\diabetes-KGQA\\server\\data\\kg\\kg_data";
+//        String destiDataPath = "D:\\dev\\PycharmProjects\\diabetes-KGQA\\server\\data\\kg\\kg_data\\all.json";
 
 
-//        String initDataPath = "/Users/xiedong/PycharmProjects/diabetes-KGQA/data/kg_data";
-//        String destiDataPath = "/Users/xiedong/PycharmProjects/diabetes-KGQA/data/clear_data/clear.json";
+        String initDataPath = "/Users/xiedong/PycharmProjects/diabetes-KGQA/server/data/kg/kg_data";
+        String destiDataPath = "/Users/xiedong/PycharmProjects/diabetes-KGQA/server/data/kg/clear_data/clear.json";
 
 
         File[] listFiles = FileUtil.ls(initDataPath);
@@ -35,7 +35,7 @@ public class Test1 {
         for (File listFile : listFiles) {
             countFIle++;
             String fileContent = FileUtil.readString(listFile, Charset.defaultCharset());
-            if (listFile.getName().equals("all.json")) {
+            if (listFile.getName().equals("clear.json")) {
                 continue;
             }
             JSONObject jsonObject = JSON.parseObject(fileContent);
@@ -109,9 +109,11 @@ public class Test1 {
 //        System.out.println("发现病因：" + JSON.toJSONString(Reason_Disease));
 
 
-        Map<String, Object> Drug_Disease = MapUtil.filter(relsMap, entry -> entry.getValue().equals("Drug_Disease"));
-        System.out.println("发现疾病治疗：" + JSON.toJSONString(Drug_Disease));
+//        Map<String, Object> Drug_Disease = MapUtil.filter(relsMap, entry -> entry.getValue().equals("Drug_Disease"));
+//        System.out.println("发现疾病治疗：" + JSON.toJSONString(Drug_Disease));
 
+        Map<String, Object> Class_Disease = MapUtil.filter(relsMap, entry -> entry.getValue().equals("Class_Disease"));
+        System.out.println("发现分期类型->疾病：" + JSON.toJSONString(Class_Disease));
         System.out.println();
     }
 
