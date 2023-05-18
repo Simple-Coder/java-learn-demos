@@ -10,7 +10,7 @@ import java.net.Socket;
  * Created by xiedong
  * Date: 2023/5/18 22:06
  */
-public class BIOServer3 {
+public class Server3 {
     @SneakyThrows
     public static void main(String[] args) {
         byte[] buffer = new byte[1024];
