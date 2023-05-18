@@ -1,4 +1,4 @@
-package demos.test.io.bio;
+package demos.test.io.demo1;
 
 import lombok.SneakyThrows;
 
@@ -9,7 +9,7 @@ import java.net.Socket;
  * Created by xiedong
  * Date: 2023/5/18 22:01
  */
-public class BIOServer {
+public class BIOServer1 {
     @SneakyThrows
     public static void main(String[] args) {
         byte[] buffer = new byte[1024];

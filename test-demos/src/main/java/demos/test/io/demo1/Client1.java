@@ -1,4 +1,4 @@
-package demos.test.io.bio;
+package demos.test.io.demo1;
 
 import lombok.SneakyThrows;
 
