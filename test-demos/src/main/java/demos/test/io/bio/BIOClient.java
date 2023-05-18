@@ -1,19 +1,18 @@
-package demos.test.netty.demo;
+package demos.test.io.bio;
 
 import lombok.SneakyThrows;
 
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 
 /**
  * Created by xiedong
- * Date: 2023/5/15 21:43
+ * Date: 2023/5/18 22:01
  */
-public class Consumer {
+public class BIOClient {
     @SneakyThrows
     public static void main(String[] args) {
         Socket socket = new Socket("127.0.0.1", 8080);
-        socket.getOutputStream().write("客户端正在发送".getBytes(StandardCharsets.UTF_8));
+        socket.getOutputStream().write("向服务器发数据".getBytes());
         socket.close();
     }
 }
