@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public class ChatHandler extends ChannelInboundHandlerAdapter { // (1)
 
-    Set<Channel> channelList = new HashSet<>();
+    static Set<Channel> channelList = new HashSet<>();
 
     @Override
 
@@ -34,8 +34,7 @@ public class ChatHandler extends ChannelInboundHandlerAdapter { // (1)
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ByteBuf out = (ByteBuf) msg;
-        String message = out.toString(Charset.defaultCharset());
+        String message = (String) msg;
 
         //通知其他人，我上线了
         channelList.forEach(e -> {

@@ -10,6 +10,11 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Created by xiedong
@@ -32,6 +37,9 @@ public class ChatServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
+
+                            ch.pipeline().addLast("encoder", new StringEncoder());
+                            ch.pipeline().addLast("decoder", new StringDecoder());
                             ch.pipeline().addLast(new ChatHandler());
                         }
                     })
