@@ -1,6 +1,5 @@
 package demos.test.im.single.handler;
 
-import demos.test.im.bean.*;
 import demos.test.im.single.bean.*;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
