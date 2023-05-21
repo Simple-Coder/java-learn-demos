@@ -1,6 +1,5 @@
 package demos.test.im.group.handler;
 
-import demos.test.im.bean.*;
 import demos.test.im.group.bean.*;
 import demos.test.im.single.bean.LoginReqBean;
 import demos.test.im.single.bean.LoginResBean;
