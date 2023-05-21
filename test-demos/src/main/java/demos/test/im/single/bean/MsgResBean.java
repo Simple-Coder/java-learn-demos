@@ -1,4 +1,4 @@
-package demos.test.im.bean;
+package demos.test.im.single.bean;
 
 import lombok.Data;
 

@@ -1,7 +1,7 @@
 package demos.test.im.codec;
 
 import com.alibaba.fastjson.JSON;
-import demos.test.im.bean.BaseBean;
+import demos.test.im.single.bean.BaseBean;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;

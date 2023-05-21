@@ -1,8 +1,8 @@
-package demos.test.im;
+package demos.test.im.group;
 
 import demos.test.im.codec.MyDecoder;
 import demos.test.im.codec.MyEncoder;
-import demos.test.im.handler.ClientChatHandler;
+import demos.test.im.single.handler.ClientChatHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -17,7 +17,7 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
  * Created by xiedong
  * Date: 2023/5/21 15:19
  */
-public class ChatClient {
+public class GroupChatClient {
     public static void main(String[] args) throws Exception {
         String host = args[0];
         int port = Integer.parseInt(args[1]);

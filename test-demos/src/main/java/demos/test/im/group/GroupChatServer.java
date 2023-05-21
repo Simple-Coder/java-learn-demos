@@ -1,8 +1,8 @@
-package demos.test.im;
+package demos.test.im.group;
 
 import demos.test.im.codec.MyDecoder;
 import demos.test.im.codec.MyEncoder;
-import demos.test.im.handler.ServerChatHandler;
+import demos.test.im.single.handler.ServerChatHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -18,10 +18,10 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
  * Created by xiedong
  * Date: 2023/5/21 15:17
  */
-public class ChatServer {
+public class GroupChatServer {
     private int port;
 
-    public ChatServer(int port) {
+    public GroupChatServer(int port) {
         this.port = port;
     }
 
@@ -67,6 +67,6 @@ public class ChatServer {
             port = Integer.parseInt(args[0]);
         }
 
-        new ChatServer(port).run();
+        new GroupChatServer(port).run();
     }
 }
