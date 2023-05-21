@@ -1,4 +1,4 @@
-package demos.test.im.single.codec;
+package demos.test.im.group.codec;
 
 import com.alibaba.fastjson.JSON;
 import demos.test.im.BaseBean;
@@ -10,7 +10,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * Created by xiedong
  * Date: 2023/5/21 15:09
  */
-public class MyEncoder extends MessageToByteEncoder<BaseBean> {
+public class MyGroupEncoder extends MessageToByteEncoder<BaseBean> {
 
 
     protected void encode(ChannelHandlerContext channelHandlerContext, BaseBean baseBean, ByteBuf byteBuf) throws Exception {

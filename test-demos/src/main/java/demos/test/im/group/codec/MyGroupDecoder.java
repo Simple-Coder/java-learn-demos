@@ -1,4 +1,4 @@
-package demos.test.im.single.codec;
+package demos.test.im.group.codec;
 
 import com.alibaba.fastjson.JSON;
 import demos.test.im.BaseBean;
@@ -13,7 +13,7 @@ import java.util.List;
  * Created by xiedong
  * Date: 2023/5/21 15:09
  */
-public class MyDecoder extends ByteToMessageDecoder {
+public class MyGroupDecoder extends ByteToMessageDecoder {
 
 
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {

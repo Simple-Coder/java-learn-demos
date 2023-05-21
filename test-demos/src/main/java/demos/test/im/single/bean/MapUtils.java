@@ -1,5 +1,7 @@
 package demos.test.im.single.bean;
 
+import demos.test.im.BaseBean;
+
 import java.util.HashMap;
 import java.util.Map;
 

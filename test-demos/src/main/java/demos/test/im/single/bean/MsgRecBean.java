@@ -1,5 +1,6 @@
 package demos.test.im.single.bean;
 
+import demos.test.im.BaseBean;
 import lombok.Data;
 
 import java.io.Serializable;
