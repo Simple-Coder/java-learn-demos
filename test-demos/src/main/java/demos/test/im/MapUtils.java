@@ -1,6 +1,8 @@
-package demos.test.im.single.bean;
+package demos.test.im;
 
 import demos.test.im.BaseBean;
+import demos.test.im.group.bean.*;
+import demos.test.im.single.bean.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +24,21 @@ public class MapUtils {
 
     private static Byte codeMsgRec = 5;
 
+    private static Byte groupCreateReq = 6;
+
+    private static Byte groupCreateRes = 7;
+    private static Byte groupListReq = 8;
+    private static Byte groupListRes = 9;
+    private static Byte groupAddReq = 10;
+    private static Byte groupAddRes = 11;
+    private static Byte groupQuitReq = 12;
+    private static Byte groupQuitRes = 13;
+    private static Byte groupMemberReq = 14;
+    private static Byte groupMemberRes = 15;
+    private static Byte groupSendMsgReq = 16;
+    private static Byte groupSendMsgRes = 17;
+    private static Byte groupRecMsg = 18;
+
     //2. 自定义一个Map，专门管理指令和实体的关系
     private static Map<Byte, Class<? extends BaseBean>> map = new HashMap<Byte, Class<? extends BaseBean>>();
 
@@ -32,6 +49,32 @@ public class MapUtils {
         map.put(codeMsgReq, MsgReqBean.class);
         map.put(codeMsgRes, MsgResBean.class);
         map.put(codeMsgRec, MsgRecBean.class);
+
+
+        //创建群组的请求和响应实体
+        map.put(groupCreateReq, GroupCreateReqBean.class);
+        map.put(groupCreateRes, GroupCreateResBean.class);
+
+        //查看群组的请求和响应实体
+        map.put(groupListReq, GroupListReqBean.class);
+        map.put(groupListRes, GroupListResBean.class);
+
+        //加入群组的请求和响应实体
+        map.put(groupAddReq, GroupAddReqBean.class);
+        map.put(groupAddRes, GroupAddResBean.class);
+
+        //退出群组的请求和响应实体
+        map.put(groupQuitReq, GroupQuitReqBean.class);
+        map.put(groupQuitRes, GroupQuitResBean.class);
+
+        //查看成员列表的请求和响应实体
+        map.put(groupMemberReq, GroupMemberReqBean.class);
+        map.put(groupMemberRes, GroupMemberResBean.class);
+
+        //发送响应的实体（发送消息、发送响应、接受消息）
+        map.put(groupSendMsgReq, GroupSendMsgReqBean.class);
+        map.put(groupSendMsgRes, GroupSendMsgResBean.class);
+        map.put(groupRecMsg, GroupRecMsgBean.class);
     }
 
     //4. 根据指令获取对应的实体

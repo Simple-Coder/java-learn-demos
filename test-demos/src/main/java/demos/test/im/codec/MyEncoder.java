@@ -1,4 +1,4 @@
-package demos.test.im.single.codec;
+package demos.test.im.codec;
 
 import com.alibaba.fastjson.JSON;
 import demos.test.im.BaseBean;

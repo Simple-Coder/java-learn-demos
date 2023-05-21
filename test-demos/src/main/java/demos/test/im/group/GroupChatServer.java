@@ -1,7 +1,7 @@
 package demos.test.im.group;
 
-import demos.test.im.group.codec.MyGroupDecoder;
-import demos.test.im.group.codec.MyGroupEncoder;
+import demos.test.im.codec.MyDecoder;
+import demos.test.im.codec.MyEncoder;
 import demos.test.im.group.handler.ServerChatGroupHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -38,12 +38,12 @@ public class GroupChatServer {
                             //1.拆包器
                             ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 5, 4));
                             //2.自定义解码器
-                            ch.pipeline().addLast(new MyGroupDecoder());
+                            ch.pipeline().addLast(new MyDecoder());
                             //3.业务Handler
 //                            ch.pipeline().addLast(new ServerChatHandler());
                             ch.pipeline().addLast(new ServerChatGroupHandler());
                             //4.自定义编码器
-                            ch.pipeline().addLast(new MyGroupEncoder());
+                            ch.pipeline().addLast(new MyEncoder());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
