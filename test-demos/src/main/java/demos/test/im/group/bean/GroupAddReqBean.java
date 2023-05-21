@@ -1,6 +1,7 @@
 package demos.test.im.group.bean;
 
 import demos.test.im.BaseBean;
+import demos.test.im.MapUtils;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,6 +17,6 @@ public class GroupAddReqBean extends BaseBean implements Serializable {
 
     @Override
     public Byte code() {
-        return 7;
+        return MapUtils.groupAddReq;
     }
 }
