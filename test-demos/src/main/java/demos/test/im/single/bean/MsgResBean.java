@@ -1,6 +1,7 @@
 package demos.test.im.single.bean;
 
 import demos.test.im.BaseBean;
+import demos.test.im.MapUtils;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,6 +17,6 @@ public class MsgResBean extends BaseBean implements Serializable {
     private String msg;//响应信息
 
     public Byte code() {
-        return 4;//业务指令
+        return MapUtils.codeMsgRes;//业务指令
     }
 }

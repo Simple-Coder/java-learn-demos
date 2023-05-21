@@ -1,6 +1,7 @@
 package demos.test.im.single.bean;
 
 import demos.test.im.BaseBean;
+import demos.test.im.MapUtils;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,6 +18,6 @@ public class LoginResBean extends BaseBean implements Serializable {
     private Integer userid;//用户ID
 
     public Byte code() {
-        return 2;//业务指令
+        return MapUtils.codeLoginRes;//业务指令
     }
 }
