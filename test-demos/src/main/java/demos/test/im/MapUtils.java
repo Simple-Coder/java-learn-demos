@@ -1,6 +1,5 @@
 package demos.test.im;
 
-import demos.test.im.BaseBean;
 import demos.test.im.group.bean.*;
 import demos.test.im.single.bean.*;
 
@@ -14,33 +13,33 @@ import java.util.Map;
 public class MapUtils {
 //1. 自定义指令
 
-    private static Byte codeLoginReq = 1;
+    public static Byte codeLoginReq = 1;
 
-    private static Byte codeLoginRes = 2;
+    public static Byte codeLoginRes = 2;
 
-    private static Byte codeMsgReq = 3;
+    public static Byte codeMsgReq = 3;
 
-    private static Byte codeMsgRes = 4;
+    public static Byte codeMsgRes = 4;
 
-    private static Byte codeMsgRec = 5;
+    public static Byte codeMsgRec = 5;
 
-    private static Byte groupCreateReq = 6;
+    public static Byte groupCreateReq = 6;
 
-    private static Byte groupCreateRes = 7;
-    private static Byte groupListReq = 8;
-    private static Byte groupListRes = 9;
-    private static Byte groupAddReq = 10;
-    private static Byte groupAddRes = 11;
-    private static Byte groupQuitReq = 12;
-    private static Byte groupQuitRes = 13;
-    private static Byte groupMemberReq = 14;
-    private static Byte groupMemberRes = 15;
-    private static Byte groupSendMsgReq = 16;
-    private static Byte groupSendMsgRes = 17;
-    private static Byte groupRecMsg = 18;
+    public static Byte groupCreateRes = 7;
+    public static Byte groupListReq = 8;
+    public static Byte groupListRes = 9;
+    public static Byte groupAddReq = 10;
+    public static Byte groupAddRes = 11;
+    public static Byte groupQuitReq = 12;
+    public static Byte groupQuitRes = 13;
+    public static Byte groupMemberReq = 14;
+    public static Byte groupMemberRes = 15;
+    public static Byte groupSendMsgReq = 16;
+    public static Byte groupSendMsgRes = 17;
+    public static Byte groupRecMsg = 18;
 
     //2. 自定义一个Map，专门管理指令和实体的关系
-    private static Map<Byte, Class<? extends BaseBean>> map = new HashMap<Byte, Class<? extends BaseBean>>();
+    public static Map<Byte, Class<? extends BaseBean>> map = new HashMap<Byte, Class<? extends BaseBean>>();
 
     //3. 初始化
     static {
@@ -88,7 +87,7 @@ public class MapUtils {
         }
     }
 
-//    private static Map<Byte, Class<? extends BaseBean>> map = new HashMap<Byte, Class<? extends BaseBean>>();
+//    public static Map<Byte, Class<? extends BaseBean>> map = new HashMap<Byte, Class<? extends BaseBean>>();
 
 //    static {
 //        //登录的请求和响应实体
