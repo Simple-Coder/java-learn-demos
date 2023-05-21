@@ -20,29 +20,24 @@ public class ClientChatGroupHandler extends ChannelInboundHandlerAdapter {
 
 
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-//在链接就绪时登录
+        //在链接就绪时登录
         login(ctx.channel());
     }
 
     //主要是“接受服务端”的响应信息
-
     @Override
-
-
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof LoginResBean) {
             LoginResBean res = (LoginResBean) msg;
             System.out.println("登录响应：" + res.getMsg());
             if (res.getStatus() == 0) {
-//登录成功
-
-//1.给通道绑定身份
+                //登录成功
+                //1.给通道绑定身份
                 ctx.channel().attr(AttributeKey.valueOf("userid")).set(res.getUserid());
-
-//2.显示操作类型【请看下面】
+                //2.显示操作类型【请看下面】
                 deal(ctx.channel());
             } else {
-//登录失败，继续登录
+                //登录失败，继续登录
                 login(ctx.channel());
             }
         } else if (msg instanceof GroupCreateResBean) {
