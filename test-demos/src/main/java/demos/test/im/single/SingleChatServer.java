@@ -1,7 +1,7 @@
 package demos.test.im.single;
 
-import demos.test.im.codec.MyDecoder;
-import demos.test.im.codec.MyEncoder;
+import demos.test.im.single.codec.MyDecoder;
+import demos.test.im.single.codec.MyEncoder;
 import demos.test.im.single.handler.ServerChatHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
