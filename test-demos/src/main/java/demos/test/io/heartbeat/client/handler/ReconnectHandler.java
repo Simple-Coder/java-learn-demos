@@ -6,6 +6,7 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.EventLoop;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +15,7 @@ import java.util.concurrent.TimeUnit;
  * Date: 2023/5/25 22:16
  */
 @ChannelHandler.Sharable
+@Slf4j
 public class ReconnectHandler extends ChannelInboundHandlerAdapter {
 
     private int retries = 0;
@@ -27,7 +29,7 @@ public class ReconnectHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("Successfully established a connection to the server.");
+        log.info("【Client】与服务端建立连接成功!");
         retries = 0;
         ctx.fireChannelActive();
     }
@@ -35,7 +37,8 @@ public class ReconnectHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         if (retries == 0) {
-            System.err.println("Lost the TCP connection with the server.");
+            log.error("【Client】 丢失TCP连接");
+//            System.err.println("Lost the TCP connection with the server.");
             ctx.close();
         }
 
@@ -43,12 +46,13 @@ public class ReconnectHandler extends ChannelInboundHandlerAdapter {
         if (allowRetry) {
 
             long sleepTimeMs = getRetryPolicy().getSleepTimeMs(retries);
-
-            System.out.println(String.format("Try to reconnect to the server after %dms. Retry count: %d.", sleepTimeMs, ++retries));
+            log.info("【Client】将在【{}】ms后尝试重连服务器，已重试次数：【{}】", sleepTimeMs, ++retries);
+//            System.out.println(String.format("Try to reconnect to the server after %dms. Retry count: %d.", sleepTimeMs, ++retries));
 
             final EventLoop eventLoop = ctx.channel().eventLoop();
             eventLoop.schedule(() -> {
-                System.out.println("Reconnecting ...");
+                log.info("【Client】重连服务器中....");
+//                System.out.println("Reconnecting ...");
                 tcpClient.connect();
             }, sleepTimeMs, TimeUnit.MILLISECONDS);
         }

@@ -6,6 +6,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import io.netty.util.concurrent.ScheduledFuture;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * Date: 2023/5/25 22:09
  * 客户端连接到服务器端后，会循环执行一个任务：随机等待几秒，然后ping一下Server端，即发送一个心跳包。
  */
+@Slf4j
 public class Pinger extends ChannelInboundHandlerAdapter {
 
     private Random random = new Random();
@@ -35,18 +37,18 @@ public class Pinger extends ChannelInboundHandlerAdapter {
         if (second == 5) {
             second = 6;
         }
-        System.out.println("next heart beat will send after " + second + "s.");
-        ScheduledFuture<?> future = channel.eventLoop().schedule(new Runnable() {
-            @Override
-            public void run() {
-                if (channel.isActive()) {
-                    System.out.println("sending heart beat to the server...");
-                    channel.writeAndFlush(ClientIdleStateTrigger.HEART_BEAT);
-                } else {
-                    System.err.println("The connection had broken, cancel the task that will send a heart beat.");
-                    channel.closeFuture();
-                    throw new RuntimeException();
-                }
+//        System.out.println("next heart beat will send after " + second + "s.");
+        log.info("【Client】下一次心跳包将会在【{}】s后发送", second);
+        ScheduledFuture<?> future = channel.eventLoop().schedule(() -> {
+            if (channel.isActive()) {
+//                System.out.println("sending heart beat to the server...");
+                log.info("【Client】正在向服务端发送心跳包");
+                channel.writeAndFlush(ClientIdleStateTrigger.HEART_BEAT);
+            } else {
+                log.info("【Client】连接已断开，取消定时发送心跳包");
+//                System.err.println("The connection had broken, cancel the task that will send a heart beat.");
+                channel.closeFuture();
+                throw new RuntimeException();
             }
         }, second, TimeUnit.SECONDS);
 
