@@ -3,6 +3,7 @@ package demos.test.io.heartbeat.server;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by xiedong
@@ -10,6 +11,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * 收到来自客户端的数据包后, 直接在控制台打印出来.
  */
 @ChannelHandler.Sharable
+@Slf4j
 public class ServerBizHandler extends SimpleChannelInboundHandler<String> {
 
     private final String REC_HEART_BEAT = "I had received the heart beat!";
@@ -17,7 +19,8 @@ public class ServerBizHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String data) throws Exception {
         try {
-            System.out.println("receive data: " + data);
+            log.info("【Server】接收到数据：【{}】", data);
+//            System.out.println("receive data: " + data);
 //            ctx.writeAndFlush(REC_HEART_BEAT);
         } catch (Exception e) {
             e.printStackTrace();
@@ -26,7 +29,8 @@ public class ServerBizHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("Established connection with the remote client.");
+        log.info("【Server】与客户端建立连接成功");
+//        System.out.println("Established connection with the remote client.");
 
         // do something
 
@@ -35,7 +39,8 @@ public class ServerBizHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("Disconnected with the remote client.");
+        log.info("【Server】与客户端断开连接了...");
+//        System.out.println("Disconnected with the remote client.");
 
         // do something
 

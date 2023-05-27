@@ -12,11 +12,14 @@ import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
+import lombok.extern.slf4j.Slf4j;
 
 /**
+ *
  * Created by xiedong
  * Date: 2023/5/25 22:13
  */
+@Slf4j
 public class TcpServer {
     private int port;
 
@@ -47,7 +50,8 @@ public class TcpServer {
             // 绑定端口，开始接收进来的连接
             ChannelFuture future = bootstrap.bind(port).sync();
 
-            System.out.println("Server start listen at " + port);
+//            System.out.println("Server start listen at " + port);
+            log.info("【Server】启动完成....端口：【{}】",port);
             future.channel().closeFuture().sync();
         } catch (Exception e) {
             bossGroup.shutdownGracefully();
