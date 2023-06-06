@@ -14,7 +14,7 @@ public class Code92 {
         ListNode head = code92.buildListNode();
 //        ListNode reverse = code92.reverse(head);
         // 将链表的前 n 个节点反转（n <= 链表长度）
-        ListNode node1 = code92.reverseN(head, 2);
+//        ListNode node1 = code92.reverseN(head, 2);
         ListNode node = code92.reverseBetween(head, 2, 4);
         System.out.println();
     }
@@ -79,7 +79,13 @@ public class Code92 {
 
 
     public ListNode reverseBetween(ListNode head, int left, int right) {
-        return null;
+        if (left == 1) {
+            // 相当于反转前 n 个元素
+            return reverseN(head, right);
+        }
+        // 前进到反转的起点触发 base case
+        head.next = reverseBetween(head.next, left - 1, right - 1);
+        return head;
     }
 
     @Data
