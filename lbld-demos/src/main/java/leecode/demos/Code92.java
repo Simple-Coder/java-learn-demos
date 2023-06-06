@@ -45,9 +45,13 @@ public class Code92 {
         if (head == null || head.next == null) {
             return head;
         }
+        // 递归地反转从下一个节点开始的链表部分
         ListNode last = reverse(head.next);
+        // 将下一个节点的下一个指针指向当前节点
         head.next.next = head;
+        // 将当前节点的下一个指针设置为null
         head.next = null;
+        // 返回反转后链表的新头节点
         return last;
     }
 
