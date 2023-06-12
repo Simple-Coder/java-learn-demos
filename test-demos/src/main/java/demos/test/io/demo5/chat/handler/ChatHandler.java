@@ -52,7 +52,7 @@ public class ChatHandler extends ChannelInboundHandlerAdapter { // (1)
         channelList.remove(ctx.channel());
         //通知其他人，我下线了
         channelList.forEach(e -> {
-            e.writeAndFlush("[客户端]" + ctx.channel().remoteAddress() + "上线了");
+            e.writeAndFlush("[客户端]" + ctx.channel().remoteAddress() + "下线了");
         });
     }
 }

@@ -23,8 +23,6 @@ public class ServerChatGroupHandler extends ChannelInboundHandlerAdapter {
 
 
     @Override
-
-
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof LoginReqBean) {
 //登录
