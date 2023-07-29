@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/feign/server")
 public class FeignServerController {
     @GetMapping("/add")
+    public Object add(@RequestParam(required = true, name = "a") int a,
+                       @RequestParam(required = true, name = "b") int b) {
+        return a + b;
+    }
+
+    @GetMapping("/add1")
     public Object add1(@RequestParam(required = true, name = "a") int a,
                        @RequestParam(required = true, name = "b") int b) {
         return a + b;
