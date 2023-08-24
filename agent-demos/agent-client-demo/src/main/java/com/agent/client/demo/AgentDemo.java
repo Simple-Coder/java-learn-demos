@@ -23,7 +23,8 @@ public class AgentDemo {
                         ElementMatchers.named(Rest_Controller_Name)
                 ))
                 .transform(new AgentTransform())
-                .with(new DemoListener());
+//                .with(new DemoListener());
+                ;
 
         builder.installOn(instrumentation);
     }
