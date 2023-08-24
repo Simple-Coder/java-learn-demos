@@ -16,6 +16,8 @@
         <module>xx-lottery</module>
         <module>tp-demo</module>
         <module>test-demos</module>
+        <module>lbld-demos</module>
+        <module>agent-demos</module>
     </modules>
 
     <properties>
