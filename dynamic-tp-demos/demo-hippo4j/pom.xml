@@ -41,6 +41,14 @@
             <groupId>cn.hippo4j</groupId>
             <artifactId>hippo4j-spring-boot-starter-monitor-micrometer</artifactId>
         </dependency>
+
+
+
+        <!-- spring-cloud-starter-netflix-hystrix -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -3,6 +3,7 @@ package com.demos;
 import cn.hippo4j.core.enable.EnableDynamicThreadPool;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 
 /**
  * Created by xiedong
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @EnableDynamicThreadPool
+@EnableHystrix
 public class Hippo4jApp {
     public static void main(String[] args) {
 

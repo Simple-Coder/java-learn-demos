@@ -22,6 +22,8 @@ spring:
         collect-types: server,micrometer # 采集线程池运行数据的类型。eg：server、micrometer。多个可以同时使用，默认 server
         initial-delay: 1000 # 项目启动后延迟多久进行采集
         thread-pool-types: dynamic # 采集线程池的类型。eg：dynamic、web、adapter。可任意配置，默认 dynamic
+      adapter-executors:
+        - threadPoolKey: 'testHystrix1'
 
 
 management:

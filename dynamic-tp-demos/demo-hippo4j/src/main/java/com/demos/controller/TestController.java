@@ -1,5 +1,6 @@
 package com.demos.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ public class TestController {
     private ThreadPoolExecutor messageConsumeDynamicExecutor;
 
     @GetMapping("/test")
+    @HystrixCommand(fallbackMethod = "hystrixFallBack")
     public Object test1() {
         messageConsumeDynamicExecutor.execute(() -> {
                     try {
@@ -30,6 +32,18 @@ public class TestController {
                     System.out.println("sleep end...");
                 }
         );
-        return "success";
+
+        return "success" + hystrix1();
+    }
+
+    @HystrixCommand(commandKey = "testHystrix1",
+            fallbackMethod = "hystrixFallBack")
+    public int hystrix1() {
+        return 1 / 0;
+    }
+
+    public Object hystrixFallBack(Throwable throwable) {
+        log.error("eerror", throwable);
+        return 2;
     }
 }
