@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>agent-client-demo</module>
+        <module>boot-server</module>
     </modules>
 
     <properties>
