@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>demo-hippo4j</module>
+        <module>demo-dynamictp</module>
     </modules>
 
     <properties>
