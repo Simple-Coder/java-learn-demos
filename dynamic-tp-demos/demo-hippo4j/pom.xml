@@ -49,6 +49,23 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.hippo4j</groupId>
+            <!-- Dubbo -->
+            <!--                <artifactId>hippo4j-spring-boot-starter-adapter-dubbo</artifactId>-->
+            <!-- Alibaba Dubbo -->
+            <!--                <artifactId>hippo4j-spring-boot-starter-adapter-alibaba-dubbo</artifactId>-->
+            <!-- Hystrix -->
+            <artifactId>hippo4j-spring-boot-starter-adapter-hystrix</artifactId>
+            <!-- RabbitMQ -->
+            <!--                <artifactId>hippo4j-spring-boot-starter-adapter-rabbitmq</artifactId>-->
+            <!-- RocketMQ -->
+            <!--                <artifactId>hippo4j-spring-boot-starter-adapter-rocketmq</artifactId>-->
+            <!-- SpringCloud Stream RocketMQ -->
+            <!--                <artifactId>hippo4j-spring-boot-starter-adapter-spring-cloud-stream-rocketmq</artifactId>-->
+            <!-- SpringCloud Stream RabbitMQ -->
+            <!--                <artifactId>hippo4j-spring-boot-starter-adapter-spring-cloud-stream-rabbitmq</artifactId>-->
+        </dependency>
     </dependencies>
 
 </project>

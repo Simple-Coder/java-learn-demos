@@ -3,7 +3,7 @@ spring:
     active: dev
   application:
     # 服务端创建的项目 id 需要与 application.name 保持一致
-    name: hudong-feed
+    name: hudong-feed-web
   dynamic:
     thread-pool:
       # 服务端地址
